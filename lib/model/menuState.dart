@@ -6,6 +6,9 @@ import 'dart:convert';
 class MenuState extends ChangeNotifier {
   List<Recipe> _items = [];
   List<Recipe> get items => _items;
+  String _randomText = "흔들어주세요!";
+  String get randomText => _randomText;
+
   MenuState() {
     fetchData();
   }

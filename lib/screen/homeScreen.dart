@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:whats_for_dinner/model/menuState.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,7 +28,11 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Text("흔들어주세요"),
+        child: Consumer<MenuState>(
+          builder: (context, menuState, child) {
+            return Text(menuState.randomText);
+          },
+        ),
       ),
     );
   }
