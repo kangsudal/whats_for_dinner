@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:whats_for_dinner/screen/foodListScreen.dart';
+import 'package:whats_for_dinner/screen/listScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (builder) => FoodListScreen()),
+                MaterialPageRoute(builder: (builder) => ListScreen()),
               );
             },
           ),

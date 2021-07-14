@@ -1,14 +1,14 @@
 
 import 'package:flutter/material.dart';
 
-class FoodListScreen extends StatefulWidget {
-  FoodListScreen({Key? key}) : super(key: key);
+class ListScreen extends StatefulWidget {
+  ListScreen({Key? key}) : super(key: key);
 
   @override
-  _FoodListScreenState createState() => _FoodListScreenState();
+  _ListScreenState createState() => _ListScreenState();
 }
 
-class _FoodListScreenState extends State<FoodListScreen> {
+class _ListScreenState extends State<ListScreen> {
   int itemCount = 5;
 
   @override

@@ -53,7 +53,7 @@
 /// INFO_NA : "271"
 /// INFO_FAT : "7"
 
-class Food {
+class Recipe {
   String? _infowgt;
   String? _manual01;
   String? _manual02;
@@ -164,7 +164,7 @@ class Food {
   String? get infona => _infona;
   String? get infofat => _infofat;
 
-  Food({
+  Recipe({
       String? infowgt, 
       String? manual01, 
       String? manual02, 
@@ -275,7 +275,7 @@ class Food {
     _infofat = infofat;
 }
 
-  Food.fromJson(dynamic json) {
+  Recipe.fromJson(Map<String, dynamic> json) {
     _infowgt = json["INFO_WGT"];
     _manual01 = json["MANUAL01"];
     _manual02 = json["MANUAL02"];
