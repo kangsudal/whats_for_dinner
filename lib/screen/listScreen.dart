@@ -17,6 +17,7 @@ class _ListScreenState extends State<ListScreen> {
       appBar: AppBar(),
       body: Consumer<MenuState>(
         builder: (context, menuState, _) {
+//          print("menuState.items.length:${menuState.items.length}");
           return ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
