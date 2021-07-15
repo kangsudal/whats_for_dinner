@@ -11,34 +11,30 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  int itemCount = 0;
-  List<Recipe> recipes = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Consumer<MenuState>(
         builder: (context, menuState, _) {
-          recipes = menuState.items;
-          itemCount = menuState.items.length;
           return ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
                 key: ValueKey(index),
                 child: ListTile(
-                  title: Text(recipes[index].rcpnm!),
+                  title: Text(menuState.items[index].rcpnm!),
                 ),
               );
             },
             separatorBuilder: separatorBuilder,
-            itemCount: itemCount,
+            itemCount: menuState.items.length,
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            itemCount++;
+            //TODO: 메뉴추가다이얼로그 띄우기
           });
         },
         child: Icon(Icons.add),
