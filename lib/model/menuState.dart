@@ -27,6 +27,7 @@ class MenuState extends ChangeNotifier {
   }
 
   Future<void> fetchData() async {
+    //api를 통해 json 파일을 읽는다
     final response = await http.get(Uri.parse(
         'https://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5'));
 
@@ -35,9 +36,9 @@ class MenuState extends ChangeNotifier {
       // then parse the JSON.
       var jsonList = jsonDecode(response.body)["COOKRCP01"]["row"];
 //      print(jsonList.map((json) => Recipe.fromJson(json)).toList()[0].rcpnm);
-      jsonList = jsonList
-          .map((json) => Recipe.fromJson(json))
-          .toList(); //dynamic -> List<Recipe>
+      //json 데이터를 변수(List<Recipe> 객체)에 저장
+      jsonList = jsonList.map((json) => Recipe.fromJson(json));
+      jsonList = jsonList.toList(); //dynamic -> List<Recipe>
       for (Recipe item in jsonList) _items.add(item);
     } else {
       // If the server did not return a 200 OK response,
