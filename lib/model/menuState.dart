@@ -33,13 +33,11 @@ class MenuState extends ChangeNotifier {
   }
 
   Future<void> fetchDataFromLocal() async {
-
+    //HTTP로 SAMPLE 데이터 말고 JSON 파일을 로컬로 저장하여 모든 레시피를 불러옴
     try {
       String jsonString = await rootBundle.loadString('source/COOKRCP01.json');
       Map<String, dynamic> dataMap = jsonDecode(jsonString);
       Iterable jsonList = dataMap["COOKRCP01"]["row"];
-//      print(jsonList.map((json) => Recipe.fromJson(json)).toList()[0].rcpnm);
-      //json 데이터를 변수(List<Recipe> 객체)에 저장
       jsonList = jsonList.map((json) => Recipe.fromJson(json));
       jsonList = jsonList.toList(); //Iterable -> List<Recipe>
       print(jsonList.runtimeType);
