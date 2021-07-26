@@ -35,7 +35,18 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Consumer<MenuState>(
           builder: (context, menuState, child) {
-            return Text(menuState.randomText);
+            if (menuState.items.length == 0) {
+              return Text("흔들어주세요!");
+            } else {
+              String src = menuState.randomRecipe.attfilenomk!;
+              src = src.replaceFirst("http", "https");
+              return Column(
+                children: [
+                  Image.network(src),
+                  Text(menuState.randomRecipe.rcpnm!),
+                ],
+              );
+            }
           },
         ),
       ),

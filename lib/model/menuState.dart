@@ -10,18 +10,21 @@ import 'dart:convert';
 class MenuState extends ChangeNotifier {
   List<Recipe> _items = [];
   List<Recipe> get items => _items;
-  String _randomText = "흔들어주세요!";
-  String get randomText => _randomText;
+//  String _randomText = "흔들어주세요!";
+//  String get randomText => _randomText;
+  Recipe _randomRecipe=Recipe();
+  Recipe get randomRecipe => _randomRecipe;
+  int randomIdx = -1;
 
   MenuState() {
 //    print("MenuState생성");
     fetchData();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       if (_items.isNotEmpty) {
-        int randomIdx = Random().nextInt(_items.length);
+        randomIdx = Random().nextInt(_items.length);
 //        print("randomIdx:$randomIdx");
 //        print("_items[randomIdx].rcpnm:${_items[randomIdx].rcpnm}");
-        _randomText = _items[randomIdx].rcpnm!;
+        _randomRecipe = _items[randomIdx];
         notifyListeners();
       }
     });
