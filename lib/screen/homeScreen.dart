@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
 
+import 'manualScreen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key? key,
@@ -39,11 +41,35 @@ class _HomeScreenState extends State<HomeScreen> {
               return Text("흔들어주세요!");
             } else {
               String src = menuState.randomRecipe.attfilenomk!;
-              src = src.replaceFirst("http", "https");
+//              src = src.replaceFirst("http", "https");
               return Column(
                 children: [
+                  Text(
+                    menuState.randomRecipe.rcpnm!,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Image.network(src),
-                  Text(menuState.randomRecipe.rcpnm!),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ManualScreen(menuState.randomRecipe),
+                        ),
+                      );
+                    },
+                    child: Text("레시피 보기"),
+                  ),
                 ],
               );
             }

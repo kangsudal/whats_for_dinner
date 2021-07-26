@@ -43,7 +43,7 @@ class MenuState extends ChangeNotifier {
       Iterable jsonList = dataMap["COOKRCP01"]["row"];
       jsonList = jsonList.map((json) => Recipe.fromJson(json));
       jsonList = jsonList.toList(); //Iterable -> List<Recipe>
-      print(jsonList.runtimeType);
+//      print(jsonList.runtimeType);
       for (Recipe item in jsonList) _items.add(item);
     } catch(e) {
       // If the server did not return a 200 OK response,
@@ -67,7 +67,7 @@ class MenuState extends ChangeNotifier {
       //json 데이터를 변수(List<Recipe> 객체)에 저장
       jsonList = jsonList.map((json) => Recipe.fromJson(json));
       jsonList = jsonList.toList(); //Iterable -> List<Recipe>
-      print(jsonList.runtimeType);
+//      print(jsonList.runtimeType);
       for (Recipe item in jsonList) _items.add(item);
     } else {
       // If the server did not return a 200 OK response,
