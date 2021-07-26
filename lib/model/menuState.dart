@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shake/shake.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
 import 'package:http/http.dart' as http;
@@ -27,18 +28,45 @@ class MenuState extends ChangeNotifier {
   }
 
   Future<void> fetchData() async {
+//    fetchDataFromTheInternet();
+    fetchDataFromLocal();
+  }
+
+  Future<void> fetchDataFromLocal() async {
+
+    try {
+      String jsonString = await rootBundle.loadString('source/COOKRCP01.json');
+      Map<String, dynamic> dataMap = jsonDecode(jsonString);
+      Iterable jsonList = dataMap["COOKRCP01"]["row"];
+//      print(jsonList.map((json) => Recipe.fromJson(json)).toList()[0].rcpnm);
+      //json 데이터를 변수(List<Recipe> 객체)에 저장
+      jsonList = jsonList.map((json) => Recipe.fromJson(json));
+      jsonList = jsonList.toList(); //Iterable -> List<Recipe>
+      print(jsonList.runtimeType);
+      for (Recipe item in jsonList) _items.add(item);
+    } catch(e) {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception(e);
+    }
+  }
+
+  Future<void> fetchDataFromTheInternet() async {
     //api를 통해 json 파일을 읽는다
     final response = await http.get(Uri.parse(
-        'https://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5'));
+        'https://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5')); //sample에 apiKey 넣어줘야한다. 데이터는 1318개정도있고, 한번에 1000개만 불러올수있다. call제한회수 1000회/1일
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      var jsonList = jsonDecode(response.body)["COOKRCP01"]["row"];
+      String jsonString = response.body;
+      Map<String, dynamic> dataMap = jsonDecode(jsonString);
+      Iterable jsonList = dataMap["COOKRCP01"]["row"];
 //      print(jsonList.map((json) => Recipe.fromJson(json)).toList()[0].rcpnm);
       //json 데이터를 변수(List<Recipe> 객체)에 저장
       jsonList = jsonList.map((json) => Recipe.fromJson(json));
-      jsonList = jsonList.toList(); //dynamic -> List<Recipe>
+      jsonList = jsonList.toList(); //Iterable -> List<Recipe>
+      print(jsonList.runtimeType);
       for (Recipe item in jsonList) _items.add(item);
     } else {
       // If the server did not return a 200 OK response,
