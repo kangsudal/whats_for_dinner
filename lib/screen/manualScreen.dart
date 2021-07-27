@@ -16,6 +16,10 @@ class ManualScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
+            Text("재료: ${recipe.rcppartsdtls!}"),
+            SizedBox(
+              height: 10,
+            ),
             if (recipe.manual01 != '') Text(recipe.manual01!),
             if (recipe.manualimg01 != '') Image.network(recipe.manualimg01!),
             if (recipe.manual02 != '') Text(recipe.manual02!),
