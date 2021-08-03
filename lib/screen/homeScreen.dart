@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
 
+import 'eatNotesScreen.dart';
 import 'manualScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,6 +23,16 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
+          IconButton(
+            color: Colors.black,
+            icon: Icon(Icons.bookmark_border),//assessment icon도 괜찮은듯
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (builder) => EatNotesScreen()),
+              );
+            },
+          ),
           IconButton(
             color: Colors.black,
             icon: Icon(Icons.menu),

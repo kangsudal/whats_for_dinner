@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:whats_for_dinner/model/eatNote.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
 
 class ManualScreen extends StatelessWidget {
@@ -63,10 +66,14 @@ class ManualScreen extends StatelessWidget {
             ElevatedButton(
               child: Text("오늘은 이 메뉴로 확정!"),
               onPressed: () {
-                Navigator.pop(context);
+                print("똑똑 열리셨나요?${Hive.isBoxOpen('eatNoteBox')}");
+//                print("box?${Hive.box('eatNoteBox')}");
+                final Box box = Hive.box<EatNote>('eatNoteBox');
+                box.add(EatNote(rcpnm: recipe.rcpnm!, eatDateTime: DateTime.now()));
+                Navigator.of(context).pop();
               },
             ),
-            SizedBox(height:20),
+            SizedBox(height: 20),
           ],
         ),
       ),
