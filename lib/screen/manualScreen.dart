@@ -66,8 +66,7 @@ class ManualScreen extends StatelessWidget {
             ElevatedButton(
               child: Text("오늘은 이 메뉴로 확정!"),
               onPressed: () {
-                print("똑똑 열리셨나요?${Hive.isBoxOpen('eatNoteBox')}");
-//                print("box?${Hive.box('eatNoteBox')}");
+//                print("똑똑 열리셨나요?${Hive.isBoxOpen('eatNoteBox')}");
                 final Box box = Hive.box<EatNote>('eatNoteBox');
                 box.add(EatNote(rcpnm: recipe.rcpnm!, eatDateTime: DateTime.now()));
                 Navigator.of(context).pop();
