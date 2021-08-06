@@ -17,26 +17,52 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
 //    print("enter");
     return Scaffold(
       appBar: AppBar(
-        title: Text("data"),
+        title: Text("History"),
       ),
       body: ValueListenableBuilder(
         valueListenable: Hive.box<EatNote>("eatNoteBox").listenable(),
         builder: (context, Box<EatNote> box, child) {
 //            print(box.isOpen);
           if (box.isNotEmpty) {
-            return ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                final item = box.getAt(index);
-                var datetimeStr =
-                    DateFormat('yyyy-MM-dd\nHH:mm').format(item!.eatDateTime);
-                return ListTile(
-                  title: Text(item.rcpnm),
-                  subtitle: Text(datetimeStr),
-                  trailing: Icon(Icons.more_vert),
-                );
-              },
-              separatorBuilder: separatorBuilder,
-              itemCount: box.length,
+            var map = countOccurrences(box);
+            print(map); //{가지말이샐러드: 2, 미나리버섯고기말이&산채소스: 1, 소안심 야채 호박잎쌈: 1, 호박 프리타타: 2}
+            //todo: map의 value가 가장 큰 1,2,3위 element 구하기.
+            return Column(
+              children: [
+                Container(
+                  height: 150,
+                  child: Row(
+//                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Center(child: Text("1")),
+                      ),
+                      Expanded(
+                        child: Center(child: Text("2")),
+                      ),
+                      Expanded(
+                        child: Center(child: Text("3")),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.separated(
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = box.getAt(index);
+                      var datetimeStr = DateFormat('yyyy-MM-dd\nHH:mm')
+                          .format(item!.eatDateTime);
+                      return ListTile(
+                        title: Text(item.rcpnm),
+                        subtitle: Text(datetimeStr),
+                        trailing: Icon(Icons.more_vert),
+                      );
+                    },
+                    separatorBuilder: separatorBuilder,
+                    itemCount: box.length,
+                  ),
+                ),
+              ],
             );
           }
           return Center(
@@ -59,4 +85,17 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
   Widget separatorBuilder(BuildContext context, int index) {
     return Divider();
   }
+}
+
+Map countOccurrences(Box box) {
+  var elements = box.values;
+  var map = Map();
+  elements.forEach((element) {
+    if (!map.containsKey(element.rcpnm)) {
+      map[element.rcpnm] = 1;
+    } else {
+      map[element.rcpnm] += 1;
+    }
+  });
+  return map;
 }
