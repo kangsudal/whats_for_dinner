@@ -12,8 +12,8 @@ class MenuState extends ChangeNotifier {
   List<Recipe> get items => _items;
 //  String _randomText = "흔들어주세요!";
 //  String get randomText => _randomText;
-  Recipe _randomRecipe=Recipe();
-  Recipe get randomRecipe => _randomRecipe;
+  Recipe? _randomRecipe;
+  Recipe? get randomRecipe => _randomRecipe;
   int randomIdx = -1;
 
   MenuState() {

@@ -14,31 +14,36 @@ class EatNotesScreen extends StatefulWidget {
 class _EatNotesScreenState extends State<EatNotesScreen> {
   @override
   Widget build(BuildContext context) {
+//    print("enter");
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("data"),
+      ),
       body: ValueListenableBuilder(
-          valueListenable: Hive.box<EatNote>("eatNoteBox").listenable(),
-          builder: (context, Box<EatNote> box, child) {
+        valueListenable: Hive.box<EatNote>("eatNoteBox").listenable(),
+        builder: (context, Box<EatNote> box, child) {
+//            print(box.isOpen);
+          if (box.isNotEmpty) {
             return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 final item = box.getAt(index);
-                if (item == null) {
-                  return Container(
-                    child: Text('기록이 존재하지 않습니다.'),
-                  );
-                } else {
-                  var datetimeStr = DateFormat('yyyy-MM-dd\nHH:mm').format(item.eatDateTime);
-                  return ListTile(
-                    title: Text(item.rcpnm),
-                    subtitle: Text(datetimeStr),
-                    trailing: Icon(Icons.more_vert),
-                  );
-                }
+                var datetimeStr =
+                    DateFormat('yyyy-MM-dd\nHH:mm').format(item!.eatDateTime);
+                return ListTile(
+                  title: Text(item.rcpnm),
+                  subtitle: Text(datetimeStr),
+                  trailing: Icon(Icons.more_vert),
+                );
               },
               separatorBuilder: separatorBuilder,
               itemCount: box.length,
             );
-          }),
+          }
+          return Center(
+            child: Text('아직 기록된 음식이 없습니다.'),
+          );
+        },
+      ),
     );
   }
 
