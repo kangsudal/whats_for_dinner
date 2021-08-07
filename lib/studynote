@@ -1,0 +1,14 @@
+2021-08-07
+하고싶은거:eatNotesScreen 상단에 제일 자주먹는 음식 TOP3 표시하기
+잘안된부분:Hive.box에서 group by나 sort같은 메소드가 따로없는것같다.
+도움받은링크:
+https://stackoverflow.com/questions/55579906/how-to-count-items-occurence-in-a-list
+https://stackoverflow.com/questions/52052241/how-to-get-map-keys-by-values-in-dart
+https://stackoverflow.com/questions/12888206/how-can-i-sort-a-list-of-strings-in-dart
+https://masswhale.tistory.com/entry/Dart언어공부-26Map-심화-entries-asMap마지막-회차
+내가한방법:
+Hive.box
+-> eatNote.rcpnm로 빈도수체크
+-> Map<rcpnm,빈도수>데이터로 저장                                       //{가지말이샐러드: 2, 미나리버섯고기말이&산채소스: 1, 소안심 야채 호박잎쌈: 1, 호박 프리타타: 2}
+-> descending 정렬 (Map -> Iterable<MapEntry> -> List<MapEntry> 정렬)  //[MapEntry(가지말이샐러드: 2), MapEntry(호박 프리타타: 2), MapEntry(미나리버섯고기말이&산채소스: 1), MapEntry(소안심 야채 호박잎쌈: 1)]
+-> forEach를 이용하여 key, value를 순서대로 구함

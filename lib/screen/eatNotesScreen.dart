@@ -25,8 +25,29 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
 //            print(box.isOpen);
           if (box.isNotEmpty) {
             var map = countOccurrences(box);
-            print(map); //{가지말이샐러드: 2, 미나리버섯고기말이&산채소스: 1, 소안심 야채 호박잎쌈: 1, 호박 프리타타: 2}
+            print(
+                map); //{가지말이샐러드: 2, 미나리버섯고기말이&산채소스: 1, 소안심 야채 호박잎쌈: 1, 호박 프리타타: 2}
             //todo: map의 value가 가장 큰 1,2,3위 element 구하기.
+//            var keyList = map.keys.toList();
+//            var valueList = map.values.toList();
+//            valueList.sort();
+//            print("1위:${valueList[0]}, 2위:${valueList[1]}, 3위:${valueList[2]}");
+//            print(map.entries.where((element) => element.value==valueList[0]));
+
+            final List fruits = map.entries.toList();
+            print(fruits);
+            fruits.sort((a, b) {
+              MapEntry entryA = a;
+              MapEntry entryB = b;
+              return (entryB.value).compareTo((entryA.value));
+            });
+            print(fruits);
+            fruits.forEach((element) {
+              final key = element.key;
+              final value = element.value;
+              print("$key는 $value번 드셨어요.");
+            });
+
             return Column(
               children: [
                 Container(
@@ -87,7 +108,7 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
   }
 }
 
-Map countOccurrences(Box box) {
+Map countOccurrences(Box<EatNote> box) {
   var elements = box.values;
   var map = Map();
   elements.forEach((element) {
