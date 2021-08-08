@@ -4,6 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:whats_for_dinner/model/eatNote.dart';
 import 'package:intl/intl.dart';
 
+import 'moreFavoriteScreen.dart';
+
 class EatNotesScreen extends StatefulWidget {
   EatNotesScreen({Key? key}) : super(key: key);
 
@@ -24,45 +26,48 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
         builder: (context, Box<EatNote> box, child) {
 //            print(box.isOpen);
           if (box.isNotEmpty) {
-            var map = countOccurrences(box);
-            print(
-                map); //{가지말이샐러드: 2, 미나리버섯고기말이&산채소스: 1, 소안심 야채 호박잎쌈: 1, 호박 프리타타: 2}
-            //todo: map의 value가 가장 큰 1,2,3위 element 구하기.
-//            var keyList = map.keys.toList();
-//            var valueList = map.values.toList();
-//            valueList.sort();
-//            print("1위:${valueList[0]}, 2위:${valueList[1]}, 3위:${valueList[2]}");
-//            print(map.entries.where((element) => element.value==valueList[0]));
-
-            final List fruits = map.entries.toList();
-            print(fruits);
-            fruits.sort((a, b) {
-              MapEntry entryA = a;
-              MapEntry entryB = b;
-              return (entryB.value).compareTo((entryA.value));
-            });
-            print(fruits);
-            fruits.forEach((element) {
-              final key = element.key;
-              final value = element.value;
-              print("$key는 $value번 드셨어요.");
-            });
+            //먹어본 음식 (이름:횟수) 리스트 가지고오기 많이 먹은 순서대로              : Box -> List
+            final List favoriteFoods = getSortedFrequency(box);
 
             return Column(
               children: [
                 Container(
+                  color: Colors.grey,
                   height: 150,
-                  child: Row(
-//                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: Center(child: Text("1")),
+                      Row(
+                        children: List.generate(
+                          favoriteFoods.length < 3
+                              ? favoriteFoods.length
+                              : 3, //먹은 음식 종류가 3개 미만이면 그만큼, 그 이상이면 3개까지만
+                          (index) => Expanded(
+                            child: Container(
+                              color: Colors.green,
+                              child: Column(
+                                children: [
+                                  Text(favoriteFoods[index].key),
+                                  Text(favoriteFoods[index].value.toString()),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                      Expanded(
-                        child: Center(child: Text("2")),
-                      ),
-                      Expanded(
-                        child: Center(child: Text("3")),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builder) =>
+                                    MoreFavoriteScreen(favoriteFoods),
+                              ),
+                            );
+                          },
+                          child: Text("더보기"),
+                        ),
                       ),
                     ],
                   ),
@@ -106,17 +111,51 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
   Widget separatorBuilder(BuildContext context, int index) {
     return Divider();
   }
-}
 
-Map countOccurrences(Box<EatNote> box) {
-  var elements = box.values;
-  var map = Map();
-  elements.forEach((element) {
-    if (!map.containsKey(element.rcpnm)) {
-      map[element.rcpnm] = 1;
-    } else {
-      map[element.rcpnm] += 1;
-    }
-  });
-  return map;
+  Map groupByRcpnm(Box<EatNote> box) {
+    var elements = box.values;
+    var map = Map(); //빈 map 생성
+    elements.forEach((element) {
+      if (!map.containsKey(element.rcpnm)) {
+        //map에 key가 '가지말이샐러드'인 데이터가 없으면
+        map[element.rcpnm] = 1; //1번 등장 체크
+      } else {
+        map[element.rcpnm] += 1; //2번째부턴 ++
+      }
+    });
+    return map;
+  }
+
+  List getSortedFrequency(Box<EatNote> box) {
+    //group by rcpnm                      : Box -> Map
+    //sort desc                           : Map -> List
+
+    //음식명 기준으로 먹은 빈도 세기
+    var countEatFrequencyMap = groupByRcpnm(box);
+//    print(countEatFrequencyMap);
+    //{가지말이샐러드: 2, 미나리버섯고기말이&산채소스: 1, 소안심 야채 호박잎쌈: 1, 호박 프리타타: 2}
+
+    //정렬을 위해 map -> list로 변환
+    final List favoriteFoods = countEatFrequencyMap.entries.toList();
+//    print(favoriteFoods);
+    //[MapEntry(가지말이샐러드: 2), MapEntry(미나리버섯고기말이&산채소스: 1), MapEntry(소안심 야채 호박잎쌈: 1), MapEntry(호박 프리타타: 2)]
+
+    //value가 가장 큰 순서대로 내림차순 정렬
+    favoriteFoods.sort((a, b) {
+      MapEntry entryA = a;
+      MapEntry entryB = b;
+      return (entryB.value).compareTo((entryA.value));
+    });
+//    print(favoriteFoods);
+    //[MapEntry(가지말이샐러드: 2), MapEntry(호박 프리타타: 2), MapEntry(미나리버섯고기말이&산채소스: 1), MapEntry(소안심 야채 호박잎쌈: 1)]
+
+    /*
+    favoriteFoods.forEach((element) {
+      final key = element.key; //음식 명
+      final value = element.value; // 먹은 기록 횟수
+      print("$key는 $value번 드셨어요.");
+    });
+     */
+    return favoriteFoods;
+  }
 }
