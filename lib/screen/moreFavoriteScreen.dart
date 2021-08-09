@@ -11,7 +11,7 @@ class MoreFavoriteScreen extends StatelessWidget {
         title: Text("제일 자주먹은 음식 리스트"),
       ),
       body: Container(
-        child: Column(
+        child: ListView(
           children: List.generate(
             favoriteFoods.length,
             (index) => ListTile(

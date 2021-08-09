@@ -28,6 +28,7 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
           if (box.isNotEmpty) {
             //먹어본 음식 (이름:횟수) 리스트 가지고오기 많이 먹은 순서대로              : Box -> List
             final List favoriteFoods = getSortedFrequency(box);
+            //TODO: 데이터가 많아지면 새로운 Box 만드는것 고려. (음식명:횟수)
 
             return Column(
               children: [
@@ -75,8 +76,8 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
-                      final item = box.getAt(index);
-                      var datetimeStr = DateFormat('yyyy-MM-dd\nHH:mm')
+                      final item = box.getAt(box.length-index-1);  //최신순
+                      var datetimeStr = DateFormat('yyyy-MM-dd HH:mm')
                           .format(item!.eatDateTime);
                       return ListTile(
                         title: Text(item.rcpnm),
