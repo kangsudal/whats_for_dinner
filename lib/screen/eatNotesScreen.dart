@@ -1,9 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:whats_for_dinner/model/eatNote.dart';
 import 'package:intl/intl.dart';
-
+import 'dart:math' as math;
 import 'moreFavoriteScreen.dart';
 
 class EatNotesScreen extends StatefulWidget {
@@ -33,23 +35,41 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
             return Column(
               children: [
                 Container(
-                  color: Colors.grey,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey, width: 1),
+                    ),
+                  ),
+//                  color: Colors.grey,
                   height: 150,
                   child: Column(
                     children: [
-                      Row(
-                        children: List.generate(
-                          favoriteFoods.length < 3
-                              ? favoriteFoods.length
-                              : 3, //먹은 음식 종류가 3개 미만이면 그만큼, 그 이상이면 3개까지만
-                          (index) => Expanded(
-                            child: Container(
-                              color: Colors.green,
-                              child: Column(
-                                children: [
-                                  Text(favoriteFoods[index].key),
-                                  Text(favoriteFoods[index].value.toString()),
-                                ],
+                      Expanded(
+                        child: Row(
+                          children: List.generate(
+                            favoriteFoods.length < 3
+                                ? favoriteFoods.length
+                                : 3, //먹은 음식 종류가 3개 미만이면 그만큼, 그 이상이면 3개까지만
+                            (index) => Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Color((math.Random().nextDouble() *
+                                              0xFFFFFF)
+                                          .toInt())
+                                      .withOpacity(0.5),
+                                ),
+                                padding: EdgeInsets.all(20),
+                                margin: EdgeInsets.all(3),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(favoriteFoods[index].key),
+                                    Text(
+                                        "${favoriteFoods[index].value.toString()}번 먹었어요", style: TextStyle(fontSize: 10,),),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -67,7 +87,7 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
                               ),
                             );
                           },
-                          child: Text("더보기"),
+                          child: Text("더보기",style: TextStyle(color: Colors.grey),),
                         ),
                       ),
                     ],
@@ -76,7 +96,7 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
-                      final item = box.getAt(box.length-index-1);  //최신순
+                      final item = box.getAt(box.length - index - 1); //최신순
                       var datetimeStr = DateFormat('yyyy-MM-dd HH:mm')
                           .format(item!.eatDateTime);
                       return ListTile(
