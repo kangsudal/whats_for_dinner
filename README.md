@@ -1,16 +1,7 @@
 # whats_for_dinner
+오늘 뭐 먹지 앱
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+문제: 늘 먹던거 말고 새로운건 먹고싶고 영양가있는 음식이 뭐가 있을까 고민만하다 결국 똑같은 요리를 하게된다
+목표: 우리 가족 저녁 메뉴 결정을 돕는 어플만들기!!
+데이터: https://openapi.foodsafetykorea.go.kr
+프레임워크: Flutter
