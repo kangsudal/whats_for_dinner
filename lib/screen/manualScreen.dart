@@ -68,7 +68,7 @@ class ManualScreen extends StatelessWidget {
               onPressed: () {
 //                print("똑똑 열리셨나요?${Hive.isBoxOpen('eatNoteBox')}");
                 final Box box = Hive.box<EatNote>('eatNoteBox');
-                box.add(EatNote(rcpnm: recipe.rcpnm!, eatDateTime: DateTime.now()));
+                box.add(EatNote(recipe: recipe, eatDateTime: DateTime.now()));
                 Navigator.of(context).pop();
               },
             ),

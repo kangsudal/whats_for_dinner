@@ -106,7 +106,7 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
                       return GestureDetector(
                         onTap: (){/*Navigator.push(context, MaterialPageRoute(builder: (builder)=>ManualScreen()));*/},
                         child: ListTile(
-                          title: Text(item.rcpnm),
+                          title: Text(item.recipe.rcpnm!),
                           subtitle: Text(datetimeStr),
                           trailing: Icon(Icons.more_vert),
                         ),
@@ -144,11 +144,11 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
     var elements = box.values;
     var map = Map(); //빈 map 생성
     elements.forEach((element) {
-      if (!map.containsKey(element.rcpnm)) {
+      if (!map.containsKey(element.recipe.rcpnm)) {
         //map에 key가 '가지말이샐러드'인 데이터가 없으면
-        map[element.rcpnm] = 1; //1번 등장 체크
+        map[element.recipe.rcpnm] = 1; //1번 등장 체크
       } else {
-        map[element.rcpnm] += 1; //2번째부턴 ++
+        map[element.recipe.rcpnm] += 1; //2번째부턴 ++
       }
     });
     return map;

@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:whats_for_dinner/model/recipe.dart';
 
 part 'eatNote.g.dart';
 
@@ -8,14 +9,14 @@ final String tableName = 'eatNote_table';
 class EatNote {
   //데이터베이스 구조
   @HiveField(0)
-  String rcpnm; //음식명
+  Recipe recipe; //음식명
   @HiveField(1)
   DateTime eatDateTime; //먹은날짜
 
-  EatNote({required this.rcpnm, required this.eatDateTime});
+  EatNote({required this.recipe, required this.eatDateTime});
 
   @override
   String toString() {
-    return 'EatNote{rcpnm: $rcpnm, eatDateTime: $eatDateTime}';
+    return 'EatNote{recipe: $recipe, eatDateTime: $eatDateTime}';
   }
 }

@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+part 'recipe.g.dart';
 /// INFO_WGT : ""
 /// MANUAL01 : "1. 깨끗이 씻어 손질한 애호박, 당근과 기둥을 뗀 표고버섯을 잘게 다지듯이 썬다.a"
 /// MANUAL02 : "2. 누룽지는 1cm 정도로 잘게 부숴준다.b"
@@ -52,61 +54,115 @@
 /// MANUAL_IMG20 : ""
 /// INFO_NA : "271"
 /// INFO_FAT : "7"
-
+@HiveType(typeId: 2)
 class Recipe {
+  @HiveField(0)
   String? _infowgt;
+  @HiveField(1)
   String? _manual01;
+  @HiveField(2)
   String? _manual02;
+  @HiveField(3)
   String? _infoeng;
+  @HiveField(4)
   String? _manual03;
+  @HiveField(5)
   String? _manual04;
+  @HiveField(6)
   String? _manual05;
+  @HiveField(7)
   String? _attfilenomk;
+  @HiveField(8)
   String? _manual06;
+  @HiveField(9)
   String? _manual07;
+  @HiveField(10)
   String? _manual08;
+  @HiveField(11)
   String? _manual09;
+  @HiveField(12)
   String? _rcppartsdtls;
+  @HiveField(13)
   String? _manualimg01;
+  @HiveField(14)
   String? _infopro;
+  @HiveField(15)
   String? _rcpnm;
+  @HiveField(16)
   String? _manual11;
+  @HiveField(17)
   String? _manualimg03;
+  @HiveField(18)
   String? _manual12;
+  @HiveField(19)
   String? _infocar;
+  @HiveField(20)
   String? _manualimg02;
+  @HiveField(21)
   String? _manualimg05;
+  @HiveField(22)
   String? _manual10;
+  @HiveField(23)
   String? _manualimg04;
+  @HiveField(24)
   String? _rcpway2;
+  @HiveField(25)
   String? _manual15;
+  @HiveField(26)
   String? _manual16;
+  @HiveField(27)
   String? _manual13;
+  @HiveField(28)
   String? _manual14;
+  @HiveField(29)
   String? _manual19;
+  @HiveField(30)
   String? _manual17;
+  @HiveField(31)
   String? _manual18;
+  @HiveField(32)
   String? _rcppat2;
+  @HiveField(33)
   String? _hashtag;
+  @HiveField(34)
   String? _manualimg06;
+  @HiveField(35)
   String? _manualimg07;
+  @HiveField(36)
   String? _manualimg08;
+  @HiveField(37)
   String? _manualimg09;
+  @HiveField(38)
   String? _rcpseq;
+  @HiveField(39)
   String? _manualimg16;
+  @HiveField(40)
   String? _manualimg15;
+  @HiveField(41)
   String? _manualimg14;
+  @HiveField(42)
   String? _manualimg13;
+  @HiveField(43)
   String? _manualimg12;
+  @HiveField(44)
   String? _manualimg11;
+  @HiveField(45)
   String? _manualimg10;
+  @HiveField(46)
   String? _manual20;
+  @HiveField(47)
   String? _manualimg19;
+  @HiveField(48)
   String? _manualimg17;
+  @HiveField(49)
   String? _manualimg18;
+  @HiveField(50)
   String? _attfilenomain;
+  @HiveField(51)
   String? _manualimg20;
+  @HiveField(52)
   String? _infona;
+  @HiveField(53)
   String? _infofat;
 
   String? get infowgt => _infowgt;

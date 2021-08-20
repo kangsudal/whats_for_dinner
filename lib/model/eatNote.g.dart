@@ -17,7 +17,7 @@ class EatNoteAdapter extends TypeAdapter<EatNote> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return EatNote(
-      rcpnm: fields[0] as String,
+      recipe: fields[0] as Recipe,
       eatDateTime: fields[1] as DateTime,
     );
   }
@@ -27,7 +27,7 @@ class EatNoteAdapter extends TypeAdapter<EatNote> {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.rcpnm)
+      ..write(obj.recipe)
       ..writeByte(1)
       ..write(obj.eatDateTime);
   }
