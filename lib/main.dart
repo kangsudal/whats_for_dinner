@@ -24,11 +24,11 @@ void main() async{
     fetchData(recipeBox); // JSON -> recipeBox 저장
   }
   else{
-    print("=========Box에 저장된 값:==========");
-    var list = recipeBox.values;
-    for (Recipe item in list){
-      print(item.rcpnm);
-    }
+//    print("=========Box에 저장된 값:==========");
+//    var list = recipeBox.values;
+//    for (Recipe item in list){
+//      print(item.rcpnm);
+//    }
   }
   runApp(
     ChangeNotifierProvider(

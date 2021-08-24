@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
+import 'package:whats_for_dinner/model/recipe.dart';
 
 class ListScreen extends StatefulWidget {
   ListScreen({Key? key}) : super(key: key);
@@ -12,21 +14,18 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
+    Box<Recipe> recipeBox = Hive.box('recipeBox');
+    List<Recipe> items = recipeBox.values.toList();
     return Scaffold(
       appBar: AppBar(),
-      body: Consumer<MenuState>(
-        builder: (context, menuState, _) {
-//          print("menuState.items.length:${menuState.items.length}");
-          return ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                  title: Text(menuState.items[index].rcpnm!),
-              );
-            },
-            separatorBuilder: separatorBuilder,
-            itemCount: menuState.items.length,
+      body: ListView.separated(
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(items[index].rcpnm!),
           );
         },
+        separatorBuilder: separatorBuilder,
+        itemCount: items.length,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
