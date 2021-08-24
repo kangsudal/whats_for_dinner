@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
 
-import 'eatNotesScreen.dart';
+import 'historyScreen.dart';
 import 'manualScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (builder) => EatNotesScreen()),
+                MaterialPageRoute(builder: (builder) => HistoryScreen()),
               );
             },
           ),

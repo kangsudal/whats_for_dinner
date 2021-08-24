@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
+import 'package:whats_for_dinner/screen/manualScreen.dart';
 
 class ListScreen extends StatefulWidget {
   ListScreen({Key? key}) : super(key: key);
@@ -22,6 +23,14 @@ class _ListScreenState extends State<ListScreen> {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             title: Text(items[index].rcpnm!),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ManualScreen(items[index]),
+                ),
+              );
+            },
           );
         },
         separatorBuilder: separatorBuilder,

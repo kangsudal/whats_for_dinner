@@ -9,14 +9,14 @@ import 'package:whats_for_dinner/screen/manualScreen.dart';
 import 'dart:math' as math;
 import 'moreFavoriteScreen.dart';
 
-class EatNotesScreen extends StatefulWidget {
-  EatNotesScreen({Key? key}) : super(key: key);
+class HistoryScreen extends StatefulWidget {
+  HistoryScreen({Key? key}) : super(key: key);
 
   @override
-  _EatNotesScreenState createState() => _EatNotesScreenState();
+  _HistoryScreenState createState() => _HistoryScreenState();
 }
 
-class _EatNotesScreenState extends State<EatNotesScreen> {
+class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
 //    print("enter");
@@ -36,7 +36,9 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
             return Column(
               children: [
                 GestureDetector(
-                  onTap: (){/*Navigator.push(context, MaterialPageRoute(builder: (builder)=>ManualScreen())) TODO: ManualScreen으로 넘겨줄 Recipe 객체 구하기*/},
+                  onTap: () {
+                    /*Navigator.push(context, MaterialPageRoute(builder: (builder)=>ManualScreen())) TODO: ManualScreen으로 넘겨줄 Recipe 객체 구하기*/
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border(
@@ -70,7 +72,11 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
                                     children: [
                                       Text(favoriteFoods[index].key),
                                       Text(
-                                          "${favoriteFoods[index].value.toString()}번 먹었어요", style: TextStyle(fontSize: 10,),),
+                                        "${favoriteFoods[index].value.toString()}번 먹었어요",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -90,7 +96,10 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
                                 ),
                               );
                             },
-                            child: Text("더보기",style: TextStyle(color: Colors.grey),),
+                            child: Text(
+                              "더보기",
+                              style: TextStyle(color: Colors.grey),
+                            ),
                           ),
                         ),
                       ],
@@ -103,13 +112,18 @@ class _EatNotesScreenState extends State<EatNotesScreen> {
                       final item = box.getAt(box.length - index - 1); //최신순
                       var datetimeStr = DateFormat('yyyy-MM-dd HH:mm')
                           .format(item!.eatDateTime);
-                      return GestureDetector(
-                        onTap: (){/*Navigator.push(context, MaterialPageRoute(builder: (builder)=>ManualScreen()));*/},
-                        child: ListTile(
-                          title: Text(item.recipe.rcpnm!),
-                          subtitle: Text(datetimeStr),
-                          trailing: Icon(Icons.more_vert),
-                        ),
+                      return ListTile(
+                        title: Text(item.recipe.rcpnm!),
+                        subtitle: Text(datetimeStr),
+                        trailing: Icon(Icons.more_vert),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => ManualScreen(item.recipe),
+                            ),
+                          );
+                        },
                       );
                     },
                     separatorBuilder: separatorBuilder,
