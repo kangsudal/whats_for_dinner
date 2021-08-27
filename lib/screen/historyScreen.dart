@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:whats_for_dinner/model/eatNote.dart';
 import 'package:intl/intl.dart';
+import 'package:whats_for_dinner/model/recipe.dart';
 import 'package:whats_for_dinner/screen/manualScreen.dart';
 import 'dart:math' as math;
 import 'moreFavoriteScreen.dart';
@@ -115,29 +116,44 @@ class _HistoryScreenState extends State<HistoryScreen> {
         favoriteFoods.length < 3
             ? favoriteFoods.length
             : 3, //먹은 음식 종류가 3개 미만이면 그만큼, 그 이상이면 3개까지만
-        (index) => Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                  .withOpacity(0.5),
-            ),
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.all(3),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(favoriteFoods[index].key),
-                Text(
-                  "${favoriteFoods[index].value.toString()}번 먹었어요",
-                  style: TextStyle(
-                    fontSize: 10,
+        (index) {
+          Recipe food = favoriteFoods[index].key;
+          int eatFreq = favoriteFoods[index].value;
+          return Expanded(
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ManualScreen(food);
+                      },
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color:
+                        Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                            .withOpacity(0.5),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(3),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(food.rcpnm!),
+                      Text(
+                        "${eatFreq.toString()}번 먹었어요",
+                        style: TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+          );
+        },
       ),
     );
   }
@@ -168,6 +184,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
     return map;
   }
+
   Map groupByRcpnm_test(Box<EatNote> box) {
     var elements = box.values;
 //    print("elements출력: $elements");
@@ -233,6 +250,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
       print("$key는 $value번 드셨어요.");
     });
      */
-    return favoriteFoods;
+    return favoriteFoods_test;
   }
 }
