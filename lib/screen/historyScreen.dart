@@ -50,39 +50,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: Row(
-                            children: List.generate(
-                              favoriteFoods.length < 3
-                                  ? favoriteFoods.length
-                                  : 3, //먹은 음식 종류가 3개 미만이면 그만큼, 그 이상이면 3개까지만
-                              (index) => Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Color((math.Random().nextDouble() *
-                                                0xFFFFFF)
-                                            .toInt())
-                                        .withOpacity(0.5),
-                                  ),
-                                  padding: EdgeInsets.all(20),
-                                  margin: EdgeInsets.all(3),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(favoriteFoods[index].key),
-                                      Text(
-                                        "${favoriteFoods[index].value.toString()}번 먹었어요",
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: buildTop3Cards(favoriteFoods),
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
@@ -137,6 +105,39 @@ class _HistoryScreenState extends State<HistoryScreen> {
             child: Text('아직 기록된 음식이 없습니다.'),
           );
         },
+      ),
+    );
+  }
+
+  Row buildTop3Cards(List favoriteFoods) {
+    return Row(
+      children: List.generate(
+        favoriteFoods.length < 3
+            ? favoriteFoods.length
+            : 3, //먹은 음식 종류가 3개 미만이면 그만큼, 그 이상이면 3개까지만
+        (index) => Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                  .withOpacity(0.5),
+            ),
+            padding: EdgeInsets.all(20),
+            margin: EdgeInsets.all(3),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(favoriteFoods[index].key),
+                Text(
+                  "${favoriteFoods[index].value.toString()}번 먹었어요",
+                  style: TextStyle(
+                    fontSize: 10,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
