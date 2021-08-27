@@ -167,6 +167,26 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
     return map;
   }
+  Map groupByRcpnm_test(Box<EatNote> box) {
+    var elements = box.values;
+//    print("elements출력: $elements");
+//    print(elements.toList()[2]);
+//    print(elements.toList()[3]);
+//    print(elements.toList()[2].recipe==elements.toList()[3].recipe);
+    var map = Map(); //빈 map 생성
+    elements.forEach((element) {
+      print(map.keys.toList().contains(element.recipe));
+//      print(map.containsKey(element.recipe));
+      if (!(map.keys.toList().contains(element.recipe))) {
+        //map에 key가 '가지말이샐러드'인 데이터가 없으면
+        map[element.recipe] = 1; //1번 등장 체크
+      } else {
+        map[element.recipe] += 1; //2번째부턴 ++
+        print("${element.recipe.rcpnm} 하나 추가: ${map[element.recipe]}");
+      }
+    });
+    return map;
+  }
 
   List getSortedFrequency(Box<EatNote> box) {
     //group by rcpnm                      : Box -> Map
@@ -176,11 +196,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
     var countEatFrequencyMap = groupByRcpnm(box);
 //    print(countEatFrequencyMap);
     //{가지말이샐러드: 2, 미나리버섯고기말이&산채소스: 1, 소안심 야채 호박잎쌈: 1, 호박 프리타타: 2}
+    var countEatFrequencyMap_test = groupByRcpnm_test(box);
+    print(countEatFrequencyMap_test);
+    //{Instance of 'Recipe': 1, Instance of 'Recipe': 1, Instance of 'Recipe': 2}
 
     //정렬을 위해 map -> list로 변환
     final List favoriteFoods = countEatFrequencyMap.entries.toList();
 //    print(favoriteFoods);
     //[MapEntry(가지말이샐러드: 2), MapEntry(미나리버섯고기말이&산채소스: 1), MapEntry(소안심 야채 호박잎쌈: 1), MapEntry(호박 프리타타: 2)]
+    final List favoriteFoods_test = countEatFrequencyMap_test.entries.toList();
+    print(favoriteFoods_test);
+    //[MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 2)]
 
     //value가 가장 큰 순서대로 내림차순 정렬
     favoriteFoods.sort((a, b) {
@@ -190,6 +216,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
 //    print(favoriteFoods);
     //[MapEntry(가지말이샐러드: 2), MapEntry(호박 프리타타: 2), MapEntry(미나리버섯고기말이&산채소스: 1), MapEntry(소안심 야채 호박잎쌈: 1)]
+
+    favoriteFoods_test.sort((a, b) {
+      MapEntry entryA = a;
+      MapEntry entryB = b;
+      return (entryB.value).compareTo((entryA.value));
+    });
+    print(favoriteFoods_test);
+    //[MapEntry(Instance of 'Recipe': 2), MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 1)]
 
     /*
     favoriteFoods.forEach((element) {

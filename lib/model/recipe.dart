@@ -447,4 +447,11 @@ class Recipe {
     return map;
   }
 
+  @override
+  bool operator ==(Object other) {
+    return (other is Recipe) && (other.rcpnm==rcpnm) && (other.rcpseq==rcpseq);
+  }
+
+  @override
+  int get hashCode => (rcpnm!.hashCode)^(rcpseq!.hashCode);
 }
