@@ -12,6 +12,9 @@ class ManualScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(recipe.rcpnm!),
+        actions: [
+          IconButton(icon: Icon(Icons.share), onPressed: () {}),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
