@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:whats_for_dinner/model/eatNote.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
+import 'package:share/share.dart';
 
 class ManualScreen extends StatelessWidget {
   final Recipe recipe;
@@ -13,7 +14,11 @@ class ManualScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(recipe.rcpnm!),
         actions: [
-          IconButton(icon: Icon(Icons.share), onPressed: () {}),
+          IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {
+                Share.share('이미지파일', subject: '오늘이거먹을래?');
+              }),
         ],
       ),
       body: SingleChildScrollView(

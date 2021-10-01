@@ -34,6 +34,8 @@ dependencies:
   hive:
   hive_flutter:
   intl: #DateTimeFormat
+  screenshot: ^1.2.3
+  share: ^2.0.4
 
 dev_dependencies:
   hive_generator: ^1.1.0
