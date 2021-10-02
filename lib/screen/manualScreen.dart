@@ -85,6 +85,10 @@ class _ManualScreenState extends State<ManualScreen> {
                   SizedBox(
                     height: 20,
                   ),
+                  Text(widget.recipe.rcpnm!,style: TextStyle(fontSize: 20),),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text("재료: ${widget.recipe.rcppartsdtls!}"),
                   SizedBox(
                     height: 10,

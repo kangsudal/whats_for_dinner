@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Image.network(randomRecipe.attfilenomk!),
+                  Image.network(randomRecipe.attfilenomain!),//attfilenomk
                   SizedBox(
                     height: 15,
                   ),
