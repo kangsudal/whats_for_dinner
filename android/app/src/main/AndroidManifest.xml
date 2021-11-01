@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.whats_for_dinner">
+    package="com.kangsudal.whateatgo">
    <application
-        android:label="whats_for_dinner"
-        android:icon="@mipmap/ic_launcher">
+        android:label="한끼잇고"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -38,4 +38,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <!--퍼미션 설정-->
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

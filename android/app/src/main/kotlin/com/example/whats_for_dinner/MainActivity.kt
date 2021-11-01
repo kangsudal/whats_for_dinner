@@ -1,4 +1,4 @@
-package com.example.whats_for_dinner
+package com.kangsudal.whateatgo
 
 import io.flutter.embedding.android.FlutterActivity
 
