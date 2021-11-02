@@ -36,6 +36,7 @@ class _ListScreenState extends State<ListScreen> {
         separatorBuilder: separatorBuilder,
         itemCount: items.length,
       ),
+      /*
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
@@ -44,6 +45,8 @@ class _ListScreenState extends State<ListScreen> {
         },
         child: Icon(Icons.add),
       ),
+
+       */
     );
   }
 

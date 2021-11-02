@@ -84,7 +84,22 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       return ListTile(
                         title: Text(item.recipe.rcpnm!),
                         subtitle: Text(datetimeStr),
-                        trailing: Icon(Icons.more_vert),
+                        trailing: IconButton(
+                          icon: Icon(Icons.more_vert),
+                          onPressed: () => showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    content: TextButton(
+                                        onPressed: () {
+                                          box.deleteAt(
+                                              box.length - index - 1);
+                                          Navigator.pop(
+                                            context,
+                                          );
+                                        },
+                                        child: Text("삭제")),
+                                  )),
+                        ),
                         onTap: () {
                           Navigator.push(
                             context,
