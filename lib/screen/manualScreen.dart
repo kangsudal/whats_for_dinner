@@ -21,6 +21,7 @@ class _ManualScreenState extends State<ManualScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(widget.recipe.rcpnm!),
         actions: [
           IconButton(

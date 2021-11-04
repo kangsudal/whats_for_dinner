@@ -18,7 +18,10 @@ class _ListScreenState extends State<ListScreen> {
     Box<Recipe> recipeBox = Hive.box('recipeBox');
     List<Recipe> items = recipeBox.values.toList();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text("모든 음식 리스트",),
+      ),
       body: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
           return ListTile(

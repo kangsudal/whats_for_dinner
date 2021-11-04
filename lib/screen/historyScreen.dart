@@ -23,7 +23,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
 //    print("enter");
     return Scaffold(
       appBar: AppBar(
-        title: Text("History"),
+        backgroundColor: Colors.black,
+        title: Text("History",),
       ),
       body: ValueListenableBuilder(
         valueListenable: Hive.box<EatNote>("eatNoteBox").listenable(),

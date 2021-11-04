@@ -10,7 +10,8 @@ class MoreFavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("제일 자주먹은 음식 리스트"),
+        backgroundColor: Colors.black,
+        title: Text("제일 자주먹은 음식 리스트",),
       ),
       body: Container(
         child: ListView(
