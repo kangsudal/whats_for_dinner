@@ -20,7 +20,27 @@ class _ListScreenState extends State<ListScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text("모든 음식 리스트",),
+        title: Container(
+          width: double.infinity,
+          height: 40,
+          decoration: BoxDecoration(//이부분을 해줘야 검색할 부분이 잘보인다
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Center(
+            child: TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                suffix: IconButton(
+                  color: Colors.black12,
+                  icon: Icon(Icons.clear),
+                  onPressed: () {print("click");},
+                ),
+              ),
+            ),
+          ),
+        ), //Text("모든 음식 리스트",),
+        // actions: [IconButton(icon: Icon(Icons.search), onPressed: (){})],
       ),
       body: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
