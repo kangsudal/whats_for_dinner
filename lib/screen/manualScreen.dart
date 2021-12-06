@@ -27,22 +27,7 @@ class _ManualScreenState extends State<ManualScreen> {
           IconButton(
               icon: Icon(Icons.share),
               onPressed: () {
-                //taking screenshot
-                ShareFilesAndScreenshotWidgets()
-                    .takeScreenshot(previewContainer, originalSize)
-                    .then((Image value) {
-                  setState(() {
-                    _image = value;
-                  });
-                });
-                //share screenshot
-                ShareFilesAndScreenshotWidgets().shareScreenshot(
-                    previewContainer,
-                    originalSize,
-                    "title",
-                    "namename.png",
-                    "image/png",
-                    text: "오늘 이거 먹을래?");
+                shareScreenshot();
               }),
         ],
       ),
@@ -69,13 +54,12 @@ class _ManualScreenState extends State<ManualScreen> {
                       child: ClipRRect(
                         child: Image.network(widget.recipe.attfilenomain!),
                         borderRadius: BorderRadius.circular(30),
-
                       ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(45),
-                          bottomRight: Radius.circular(45),
-                        ),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(45),
+                            bottomRight: Radius.circular(45),
+                          ),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
@@ -88,7 +72,10 @@ class _ManualScreenState extends State<ManualScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    Text(widget.recipe.rcpnm!,style: TextStyle(fontSize: 20),),
+                    Text(
+                      widget.recipe.rcpnm!,
+                      style: TextStyle(fontSize: 20),
+                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -182,7 +169,8 @@ class _ManualScreenState extends State<ManualScreen> {
 //                print("똑똑 열리셨나요?${Hive.isBoxOpen('eatNoteBox')}");
                         final Box box = Hive.box<EatNote>('eatNoteBox');
                         box.add(EatNote(
-                            recipe: widget.recipe, eatDateTime: DateTime.now()));
+                            recipe: widget.recipe,
+                            eatDateTime: DateTime.now()));
                         Navigator.of(context).pop();
                       },
                     ),
@@ -195,5 +183,31 @@ class _ManualScreenState extends State<ManualScreen> {
         ),
       ),
     );
+  }
+
+  void takingScreenshot() {
+    //RepaintBoundary 위젯으로 감싸진 위젯들을 Image로 저장
+    ShareFilesAndScreenshotWidgets()
+        .takeScreenshot(previewContainer, originalSize)
+        .then(
+      (Image value) {
+        setState(
+          () {
+            _image = value;
+          },
+        );
+      },
+    );
+  }
+
+  void shareScreenshot() {
+    //Image로 저장한 스샷을 외부 위젯으로 공유
+    ShareFilesAndScreenshotWidgets().shareScreenshot(
+        previewContainer,
+        originalSize,
+        "title",
+        "namename.png",
+        "image/png",
+        text: "오늘 이거 먹을래?");
   }
 }
