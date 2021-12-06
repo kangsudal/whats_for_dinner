@@ -201,7 +201,7 @@ class _ManualScreenState extends State<ManualScreen> {
   }
 
   void shareScreenshot() {
-    //Image로 저장한 스샷을 외부 위젯으로 공유
+    //RepaintBoundary 위젯으로 감싸진 위젯 스샷을 외부 위젯으로 공유
     ShareFilesAndScreenshotWidgets().shareScreenshot(
         previewContainer,
         originalSize,
