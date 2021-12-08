@@ -166,12 +166,7 @@ class _ManualScreenState extends State<ManualScreen> {
                     ElevatedButton(
                       child: Text("오늘은 이 메뉴로 확정!"),
                       onPressed: () {
-//                print("똑똑 열리셨나요?${Hive.isBoxOpen('eatNoteBox')}");
-                        final Box box = Hive.box<EatNote>('eatNoteBox');
-                        box.add(EatNote(
-                            recipe: widget.recipe,
-                            eatDateTime: DateTime.now()));
-                        Navigator.of(context).pop();
+                        bookmarkRecipe(context);
                       },
                     ),
                     SizedBox(height: 20),
@@ -203,11 +198,14 @@ class _ManualScreenState extends State<ManualScreen> {
   void shareScreenshot() {
     //RepaintBoundary 위젯으로 감싸진 위젯 스샷을 외부 위젯으로 공유
     ShareFilesAndScreenshotWidgets().shareScreenshot(
-        previewContainer,
-        originalSize,
-        "title",
-        "namename.png",
-        "image/png",
+        previewContainer, originalSize, "title", "namename.png", "image/png",
         text: "오늘 이거 먹을래?");
+  }
+
+  void bookmarkRecipe(BuildContext context) {
+    //print("똑똑 열리셨나요?${Hive.isBoxOpen('eatNoteBox')}");
+    final Box box = Hive.box<EatNote>('eatNoteBox');
+    box.add(EatNote(recipe: widget.recipe, eatDateTime: DateTime.now()));
+    Navigator.of(context).pop();
   }
 }
