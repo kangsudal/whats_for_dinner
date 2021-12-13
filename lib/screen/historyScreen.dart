@@ -24,110 +24,105 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
-          "History",
-        ),
+        title: Text("History",),
       ),
-      body: buildBody(context),
-    );
-  }
-
-  ValueListenableBuilder<Box<EatNote>> buildBody(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: Hive.box<EatNote>("eatNoteBox").listenable(),
-      builder: (context, Box<EatNote> box, child) {
+      body: ValueListenableBuilder(
+        valueListenable: Hive.box<EatNote>("eatNoteBox").listenable(),
+        builder: (context, Box<EatNote> box, child) {
 //            print(box.isOpen);
-        if (box.isNotEmpty) {
-          //먹어본 음식 (이름:횟수) 리스트 가지고오기 많이 먹은 순서대로              : Box -> List
-          final List favoriteFoods = getSortedFrequency(box);
-          //TODO: 데이터가 많아지면 새로운 Box 만드는것 고려. (음식명:횟수)
+          if (box.isNotEmpty) {
+            //먹어본 음식 (이름:횟수) 리스트 가지고오기 많이 먹은 순서대로              : Box -> List
+            final List favoriteFoods = getSortedFrequency(box);
+            //TODO: 데이터가 많아지면 새로운 Box 만드는것 고려. (음식명:횟수)
 
-          return Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  /*Navigator.push(context, MaterialPageRoute(builder: (builder)=>ManualScreen())) TODO: ManualScreen으로 넘겨줄 Recipe 객체 구하기*/
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey, width: 1),
-                    ),
-                  ),
-//                  color: Colors.grey,
-                  height: 150,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: buildTop3Cards(favoriteFoods),
+            return Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    /*Navigator.push(context, MaterialPageRoute(builder: (builder)=>ManualScreen())) TODO: ManualScreen으로 넘겨줄 Recipe 객체 구하기*/
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey, width: 1),
                       ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (builder) =>
-                                    MoreFavoriteScreen(favoriteFoods),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "더보기",
-                            style: TextStyle(color: Colors.grey),
+                    ),
+//                  color: Colors.grey,
+                    height: 150,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: buildTop3Cards(favoriteFoods),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (builder) =>
+                                      MoreFavoriteScreen(favoriteFoods),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "더보기",
+                              style: TextStyle(color: Colors.grey),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (BuildContext context, int index) {
-                    final item = box.getAt(box.length - index - 1); //최신순
-                    var datetimeStr = DateFormat('yyyy-MM-dd HH:mm')
-                        .format(item!.eatDateTime);
-                    return ListTile(
-                      title: Text(item.recipe.rcpnm!),
-                      subtitle: Text(datetimeStr),
-                      trailing: IconButton(
-                        icon: Icon(Icons.more_vert),
-                        onPressed: () => showDialog(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  content: TextButton(
-                                      onPressed: () {
-                                        box.deleteAt(box.length - index - 1);
-                                        Navigator.pop(
-                                          context,
-                                        );
-                                      },
-                                      child: Text("삭제")),
-                                )),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => ManualScreen(item.recipe),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  separatorBuilder: separatorBuilder,
-                  itemCount: box.length,
+                Expanded(
+                  child: ListView.separated(
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = box.getAt(box.length - index - 1); //최신순
+                      var datetimeStr = DateFormat('yyyy-MM-dd HH:mm')
+                          .format(item!.eatDateTime);
+                      return ListTile(
+                        title: Text(item.recipe.rcpnm!),
+                        subtitle: Text(datetimeStr),
+                        trailing: IconButton(
+                          icon: Icon(Icons.more_vert),
+                          onPressed: () => showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    content: TextButton(
+                                        onPressed: () {
+                                          box.deleteAt(
+                                              box.length - index - 1);
+                                          Navigator.pop(
+                                            context,
+                                          );
+                                        },
+                                        child: Text("삭제")),
+                                  )),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => ManualScreen(item.recipe),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    separatorBuilder: separatorBuilder,
+                    itemCount: box.length,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            );
+          }
+          return Center(
+            child: Text('아직 기록된 음식이 없습니다.'),
           );
-        }
-        return Center(
-          child: Text('아직 기록된 음식이 없습니다.'),
-        );
-      },
+        },
+      ),
     );
   }
 
