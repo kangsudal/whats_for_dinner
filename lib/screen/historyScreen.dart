@@ -24,7 +24,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text("History",),
+        title: Text(
+          "History",
+        ),
       ),
       body: ValueListenableBuilder(
         valueListenable: Hive.box<EatNote>("eatNoteBox").listenable(),
@@ -52,7 +54,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: buildTop3Cards(favoriteFoods),
+                          child: Top3Cards(favoriteFoods: favoriteFoods),
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
@@ -92,8 +94,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               builder: (BuildContext context) => AlertDialog(
                                     content: TextButton(
                                         onPressed: () {
-                                          box.deleteAt(
-                                              box.length - index - 1);
+                                          box.deleteAt(box.length - index - 1);
                                           Navigator.pop(
                                             context,
                                           );
@@ -120,54 +121,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
           }
           return Center(
             child: Text('아직 기록된 음식이 없습니다.'),
-          );
-        },
-      ),
-    );
-  }
-
-  Row buildTop3Cards(List favoriteFoods) {
-    return Row(
-      children: List.generate(
-        favoriteFoods.length < 3
-            ? favoriteFoods.length
-            : 3, //먹은 음식 종류가 3개 미만이면 그만큼, 그 이상이면 3개까지만
-        (index) {
-          Recipe food = favoriteFoods[index].key;
-          int eatFreq = favoriteFoods[index].value;
-          return Expanded(
-            child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ManualScreen(food);
-                      },
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color:
-                        Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                            .withOpacity(0.5),
-                  ),
-                  padding: EdgeInsets.all(20),
-                  margin: EdgeInsets.all(3),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(food.rcpnm!),
-                      Text(
-                        "${eatFreq.toString()}번 먹었어요",
-                        style: TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
           );
         },
       ),
@@ -218,5 +171,56 @@ class _HistoryScreenState extends State<HistoryScreen> {
     //[MapEntry(Instance of 'Recipe': 2), MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 1)]
 
     return favoriteFoods;
+  }
+}
+
+class Top3Cards extends StatelessWidget {
+  final List<dynamic> favoriteFoods;
+
+  const Top3Cards({Key? key, required this.favoriteFoods}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: List.generate(
+        favoriteFoods.length < 3
+            ? favoriteFoods.length
+            : 3, //먹은 음식 종류가 3개 미만이면 그만큼, 그 이상이면 3개까지만
+        (index) {
+          Recipe food = favoriteFoods[index].key;
+          int eatFreq = favoriteFoods[index].value;
+          return Expanded(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ManualScreen(food);
+                    },
+                  ),
+                );
+              },
+              child: Card(
+                  color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                      .withOpacity(0.5),
+                margin: EdgeInsets.all(3),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(food.rcpnm!),
+                    Text(
+                      "${eatFreq.toString()}번 먹었어요",
+                      style: TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
