@@ -33,8 +33,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
         builder: (context, Box<EatNote> box, child) {
 //            print(box.isOpen);
           if (box.isNotEmpty) {
-            //먹어본 음식 (이름:횟수) 리스트 가지고오기 많이 먹은 순서대로              : Box -> List
-            final List favoriteFoods = getSortedFrequency(box);
+            //먹어본 음식 MapEntry(레시피:횟수) 리스트 가지고오기 많이 먹은 순서대로              : Box -> List
+            final List<MapEntry<Recipe, int>> favoriteFoods = getSortedFrequency(box);
             //TODO: 데이터가 많아지면 새로운 Box 만드는것 고려. (음식명:횟수)
 
             return Column(
@@ -70,33 +70,33 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  Map groupByRcp(Box<EatNote> box) {
-    var elements = box.values;
-    var map = Map(); //빈 map 생성
-    elements.forEach((element) {
-      print(map.keys.toList().contains(element.recipe));
-      if (!(map.keys.toList().contains(element.recipe))) {
+  Map<Recipe, int> groupByRcp(Box<EatNote> box) {
+    Iterable<EatNote> eatNotes = box.values;
+    Map<Recipe, int> map = Map(); //빈 map 생성
+    eatNotes.forEach((eatNote) {
+      print(map.keys.toList().contains(eatNote.recipe));
+      if ((map.keys.toList().contains(eatNote.recipe)) == false) {
         //map에 key가 Recipe'가지말이샐러드'인 데이터가 없으면
-        map[element.recipe] = 1; //1번 등장 체크
+        map[eatNote.recipe] = 1; //1번 등장 체크
       } else {
-        map[element.recipe] += 1; //2번째부턴 ++
-        print("${element.recipe.rcpnm} 하나 추가: ${map[element.recipe]}");
+        map[eatNote.recipe] = map[eatNote.recipe]! + 1; //2번째부턴 ++
+        print("${eatNote.recipe.rcpnm} 하나 추가: ${map[eatNote.recipe]}");
       }
     });
     return map;
   }
 
-  List getSortedFrequency(Box<EatNote> box) {
-    //group by Recipe                      : Box -> Map
-    //sort desc                           : Map -> List
+  List<MapEntry<Recipe, int>> getSortedFrequency(Box<EatNote> box) {
+    //group by Recipe                      : Box<EatNote> -> Map<Recipe,int>
+    //sort desc                           : Map<Recipe,int> -> List<MapEntry<Recipe, int>>
 
     //음식 기준으로 먹은 빈도 세기
-    Map countEatFrequencyMap = groupByRcp(box);
+    Map<Recipe, int> countEatFrequencyMap = groupByRcp(box);
 //    print(countEatFrequencyMap);
     //{Instance of 'Recipe': 1, Instance of 'Recipe': 1, Instance of 'Recipe': 2}
 
     //정렬을 위해 map -> list로 변환
-    final List favoriteFoods = countEatFrequencyMap.entries.toList();
+    final List<MapEntry<Recipe, int>> favoriteFoods = countEatFrequencyMap.entries.toList();
 //    print(favoriteFoods);
     //[MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 2)]
 
