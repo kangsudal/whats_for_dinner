@@ -39,82 +39,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
             return Column(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    /*Navigator.push(context, MaterialPageRoute(builder: (builder)=>ManualScreen())) TODO: ManualScreen으로 넘겨줄 Recipe 객체 구하기*/
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.grey, width: 1),
-                      ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey, width: 1),
                     ),
+                  ),
 //                  color: Colors.grey,
-                    height: 150,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Top3Cards(favoriteFoods: favoriteFoods),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (builder) =>
-                                      MoreFavoriteScreen(favoriteFoods),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              "더보기",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  height: 150,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Top3Cards(favoriteFoods: favoriteFoods),
+                      ),
+                      MoreWidget(favoriteFoods),
+                    ],
                   ),
                 ),
                 Expanded(
-                  child: ListView.separated(
-                    itemBuilder: (BuildContext context, int index) {
-                      final item = box.getAt(box.length - index - 1); //최신순
-                      var datetimeStr = DateFormat('yyyy-MM-dd HH:mm')
-                          .format(item!.eatDateTime);
-                      return ListTile(
-                        title: Text(item.recipe.rcpnm!),
-                        subtitle: Text(datetimeStr),
-                        trailing: IconButton(
-                          icon: Icon(Icons.more_vert),
-                          onPressed: () => showDialog(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    content: TextButton(
-                                        onPressed: () {
-                                          box.deleteAt(box.length - index - 1);
-                                          Navigator.pop(
-                                            context,
-                                          );
-                                        },
-                                        child: Text("삭제")),
-                                  )),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builder) => ManualScreen(item.recipe),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    separatorBuilder: separatorBuilder,
-                    itemCount: box.length,
-                  ),
+                  child: TimeStampList(box),
                 ),
               ],
             );
@@ -125,10 +68,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
         },
       ),
     );
-  }
-
-  Widget separatorBuilder(BuildContext context, int index) {
-    return Divider();
   }
 
   Map groupByRcp(Box<EatNote> box) {
@@ -174,6 +113,78 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 }
 
+class TimeStampList extends StatelessWidget {
+  final Box box;
+  const TimeStampList(this.box, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      itemBuilder: (BuildContext context, int index) {
+        final item = box.getAt(box.length - index - 1); //최신순
+        var datetimeStr =
+            DateFormat('yyyy-MM-dd HH:mm').format(item!.eatDateTime);
+        return ListTile(
+          title: Text(item.recipe.rcpnm!),
+          subtitle: Text(datetimeStr),
+          trailing: IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      content: TextButton(
+                          onPressed: () {
+                            box.deleteAt(box.length - index - 1);
+                            Navigator.pop(
+                              context,
+                            );
+                          },
+                          child: Text("삭제")),
+                    )),
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (builder) => ManualScreen(item.recipe),
+              ),
+            );
+          },
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      itemCount: box.length,
+    );
+  }
+}
+
+class MoreWidget extends StatelessWidget {
+  final List favoriteFoods;
+
+  const MoreWidget(this.favoriteFoods, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (builder) => MoreFavoriteScreen(favoriteFoods),
+            ),
+          );
+        },
+        child: Text(
+          "더보기",
+          style: TextStyle(color: Colors.grey),
+        ),
+      ),
+    );
+  }
+}
+
 class Top3Cards extends StatelessWidget {
   final List<dynamic> favoriteFoods;
 
@@ -201,8 +212,8 @@ class Top3Cards extends StatelessWidget {
                 );
               },
               child: Card(
-                  color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                      .withOpacity(0.5),
+                color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                    .withOpacity(0.5),
                 margin: EdgeInsets.all(3),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
