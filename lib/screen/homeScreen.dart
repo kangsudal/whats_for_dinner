@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
+import 'package:whats_for_dinner/model/persistStorage.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
 
 import 'historyScreen.dart';
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             color: Colors.black,
-            icon: Icon(Icons.bookmark_border),//assessment icon도 괜찮은듯
+            icon: Icon(Icons.bookmark_border), //assessment icon도 괜찮은듯
             onPressed: () {
               Navigator.push(
                 context,
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Consumer<MenuState>(
           builder: (context, menuState, child) {
             var randomRecipe = menuState.randomRecipe;
-            if(menuState.randomRecipe!=null){
+            if (menuState.randomRecipe != null) {
 //              src = src.replaceFirst("http", "https");
               return Column(
                 children: [
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Image.network(randomRecipe.attfilenomain!),//attfilenomk
+                  Image.network(randomRecipe.attfilenomain!), //attfilenomk
                   SizedBox(
                     height: 15,
                   ),
@@ -85,6 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
             return Text("흔들어주세요!");
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.delete), //Icon(Icons.refresh),
+        onPressed: () {},
       ),
     );
   }
