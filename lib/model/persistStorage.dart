@@ -25,10 +25,10 @@ class PersistStorage {
 
   //create and open local storage
   Future<Box<Recipe>> get _allRecipeStorage async {
-    Hive.registerAdapter(
-        RecipeAdapter()); //이건 왜 필요하지? hive에서 저장할수있는 기본 데이터 타입 이외에 custom Object를 저장하기위해. type 등록
+    // Hive.registerAdapter(
+    //     RecipeAdapter()); //이건 왜 필요하지? hive에서 저장할수있는 기본 데이터 타입 이외에 custom Object를 저장하기위해. type 등록
     Box<Recipe> allRecipeStorage =
-        await Hive.openBox<Recipe>('allRecipeStorage');
+        await Hive.openBox<Recipe>('recipeBox');
     return allRecipeStorage;
   }
 

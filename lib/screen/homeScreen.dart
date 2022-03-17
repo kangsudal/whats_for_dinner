@@ -89,7 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.delete), //Icon(Icons.refresh),
-        onPressed: () {},
+        onPressed: () {
+          PersistStorage persistStorage = PersistStorage();
+          persistStorage.deleteAllRecipe();
+        },
       ),
     );
   }
