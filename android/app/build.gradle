@@ -47,7 +47,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-/*
+/* 디버그 모드일때 주석쳐아하는부분 */
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
@@ -67,7 +67,7 @@ android {
         }
     }
 
- */
+/*    디버그 모드일때 주석쳐아하는부분 */
 }
 
 flutter {
