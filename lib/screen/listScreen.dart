@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +15,8 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Box<Recipe> recipeBox = Hive.box('recipeBox');
@@ -23,18 +27,28 @@ class _ListScreenState extends State<ListScreen> {
         title: Container(
           width: double.infinity,
           height: 40,
-          decoration: BoxDecoration(//이부분을 해줘야 검색할 부분이 잘보인다
+          decoration: BoxDecoration(
+            //이부분을 해줘야 검색할 부분이 잘보인다
             color: Colors.white,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Center(
             child: TextField(
+              controller: _controller,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: IconButton(
+                  color: Colors.black12,
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    print("search button is clicked");
+                  },
+                ),
                 suffix: IconButton(
                   color: Colors.black12,
                   icon: Icon(Icons.clear),
-                  onPressed: () {print("click");},
+                  onPressed: () {
+                    print("clear button is clicked");
+                  },
                 ),
               ),
             ),
@@ -84,5 +98,31 @@ class _ListScreenState extends State<ListScreen> {
 
   Widget separatorBuilder(BuildContext context, int index) {
     return Divider();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      print(_controller.text);
+      String searchWords = _controller.text;
+      Box<Recipe> itemBox = Hive.box('recipeBox');
+      List<Recipe> results = searchWords.isEmpty
+          ? itemBox.values.toList() // whole list
+          : itemBox.values
+              .where((recipe) => recipe.rcpnm!.contains(searchWords))
+              .toList();
+      if(searchWords.isNotEmpty){
+        for (Recipe recipe in results){
+          log(recipe.rcpnm.toString());
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
