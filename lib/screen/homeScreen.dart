@@ -17,6 +17,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  PersistStorage persistStorage = PersistStorage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.delete), //Icon(Icons.refresh),
         onPressed: () {
-          PersistStorage persistStorage = PersistStorage();
           persistStorage.deleteAllRecipe();
         },
       ),
