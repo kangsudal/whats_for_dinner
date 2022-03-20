@@ -90,9 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete), //Icon(Icons.refresh),
+        child: Icon(Icons.refresh),
         onPressed: () {
-          persistStorage.deleteAllRecipe();
+          // persistStorage.deleteAllRecipe(); //모든메뉴 삭제
+          Provider.of<MenuState>(context, listen: false).shuffle();
         },
       ),
     );
