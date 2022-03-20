@@ -15,10 +15,11 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  // TextEditingController _controller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
 
   Box<Recipe> recipeBox = Hive.box('recipeBox');
   List<Recipe> items = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,25 +35,7 @@ class _ListScreenState extends State<ListScreen> {
           ),
           child: Center(
             child: TextField(
-              onChanged: (text) {
-                //앱바 검색
-                print(text);
-                String searchWords = text;
-                Box<Recipe> itemBox = Hive.box('recipeBox');
-                List<Recipe> results = searchWords.isEmpty
-                    ? itemBox.values.toList() // whole list
-                    : itemBox.values
-                        .where((recipe) => recipe.rcpnm!.contains(searchWords))
-                        .toList();
-                if (searchWords.isNotEmpty) {
-                  for (Recipe recipe in results) {
-                    log(recipe.rcpnm.toString());
-                  }
-                }
-                setState(() {
-                  items = results;
-                });
-              },
+              controller: _controller,
               decoration: InputDecoration(
                 prefixIcon: IconButton(
                   color: Colors.black12,
@@ -66,6 +49,7 @@ class _ListScreenState extends State<ListScreen> {
                   icon: Icon(Icons.clear),
                   onPressed: () {
                     print("clear button is clicked");
+                    _controller.clear();
                   },
                 ),
               ),
@@ -120,8 +104,34 @@ class _ListScreenState extends State<ListScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    //처음켰을때 리스트뷰 초기 데이터
     items = recipeBox.values.toList();
+
+    //앱바 입력받은 값으로 검색
+    _controller.addListener(() {
+      print(_controller.text);
+      String searchWords = _controller.text;
+      Box<Recipe> itemBox = Hive.box('recipeBox');
+      List<Recipe> results = searchWords.isEmpty
+          ? itemBox.values.toList() // whole list
+          : itemBox.values
+              .where((recipe) => recipe.rcpnm!.contains(searchWords))
+              .toList();
+      if (searchWords.isNotEmpty) {
+        for (Recipe recipe in results) {
+          log(recipe.rcpnm.toString());
+        }
+      }
+      setState(() {
+        items = results; //검색결과 데이터 리스트뷰에 반영
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
