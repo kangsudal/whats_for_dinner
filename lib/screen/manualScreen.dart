@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -7,7 +10,9 @@ import 'package:share_files_and_screenshot_widgets_plus/share_files_and_screensh
 
 class ManualScreen extends StatefulWidget {
   final Recipe recipe;
+
   ManualScreen(this.recipe);
+
   @override
   _ManualScreenState createState() => _ManualScreenState();
 }
@@ -52,7 +57,14 @@ class _ManualScreenState extends State<ManualScreen> {
                   children: [
                     Container(
                       child: ClipRRect(
-                        child: Image.network(widget.recipe.attfilenomain!),
+                        child: CachedNetworkImage(
+                            errorWidget: (context, url, error) {
+                              // log("error:$error");
+                              return Icon(Icons.error);
+                            },
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            imageUrl: widget.recipe.attfilenomain!),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       decoration: BoxDecoration(
@@ -86,83 +98,223 @@ class _ManualScreenState extends State<ManualScreen> {
                     if (widget.recipe.manual01 != '')
                       Text(widget.recipe.manual01!),
                     if (widget.recipe.manualimg01 != '')
-                      Image.network(widget.recipe.manualimg01!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg01!),
                     if (widget.recipe.manual02 != '')
                       Text(widget.recipe.manual02!),
                     if (widget.recipe.manualimg02 != '')
-                      Image.network(widget.recipe.manualimg02!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg02!),
                     if (widget.recipe.manual03 != '')
                       Text(widget.recipe.manual03!),
                     if (widget.recipe.manualimg03 != '')
-                      Image.network(widget.recipe.manualimg03!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg03!),
                     if (widget.recipe.manual04 != '')
                       Text(widget.recipe.manual04!),
                     if (widget.recipe.manualimg04 != '')
-                      Image.network(widget.recipe.manualimg04!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg04!),
                     if (widget.recipe.manual05 != '')
                       Text(widget.recipe.manual05!),
                     if (widget.recipe.manualimg05 != '')
-                      Image.network(widget.recipe.manualimg05!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg05!),
                     if (widget.recipe.manual06 != '')
                       Text(widget.recipe.manual06!),
                     if (widget.recipe.manualimg06 != '')
-                      Image.network(widget.recipe.manualimg06!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg06!),
                     if (widget.recipe.manual07 != '')
                       Text(widget.recipe.manual07!),
                     if (widget.recipe.manualimg07 != '')
-                      Image.network(widget.recipe.manualimg07!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg07!),
                     if (widget.recipe.manual08 != '')
                       Text(widget.recipe.manual08!),
                     if (widget.recipe.manualimg08 != '')
-                      Image.network(widget.recipe.manualimg08!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg08!),
                     if (widget.recipe.manual09 != '')
                       Text(widget.recipe.manual09!),
                     if (widget.recipe.manualimg09 != '')
-                      Image.network(widget.recipe.manualimg09!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg09!),
                     if (widget.recipe.manual10 != '')
                       Text(widget.recipe.manual10!),
                     if (widget.recipe.manualimg10 != '')
-                      Image.network(widget.recipe.manualimg10!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg10!),
                     if (widget.recipe.manual11 != '')
                       Text(widget.recipe.manual11!),
                     if (widget.recipe.manualimg11 != '')
-                      Image.network(widget.recipe.manualimg11!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg11!),
                     if (widget.recipe.manual12 != '')
                       Text(widget.recipe.manual12!),
                     if (widget.recipe.manualimg12 != '')
-                      Image.network(widget.recipe.manualimg12!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg12!),
                     if (widget.recipe.manual13 != '')
                       Text(widget.recipe.manual13!),
                     if (widget.recipe.manualimg13 != '')
-                      Image.network(widget.recipe.manualimg13!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg13!),
                     if (widget.recipe.manual14 != '')
                       Text(widget.recipe.manual14!),
                     if (widget.recipe.manualimg14 != '')
-                      Image.network(widget.recipe.manualimg14!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg14!),
                     if (widget.recipe.manual15 != '')
                       Text(widget.recipe.manual15!),
                     if (widget.recipe.manualimg15 != '')
-                      Image.network(widget.recipe.manualimg15!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg15!),
                     if (widget.recipe.manual16 != '')
                       Text(widget.recipe.manual16!),
                     if (widget.recipe.manualimg16 != '')
-                      Image.network(widget.recipe.manualimg16!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg16!),
                     if (widget.recipe.manual17 != '')
                       Text(widget.recipe.manual17!),
                     if (widget.recipe.manualimg17 != '')
-                      Image.network(widget.recipe.manualimg17!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg17!),
                     if (widget.recipe.manual18 != '')
                       Text(widget.recipe.manual18!),
                     if (widget.recipe.manualimg18 != '')
-                      Image.network(widget.recipe.manualimg18!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg18!),
                     if (widget.recipe.manual19 != '')
                       Text(widget.recipe.manual19!),
                     if (widget.recipe.manualimg19 != '')
-                      Image.network(widget.recipe.manualimg19!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg19!),
                     if (widget.recipe.manual20 != '')
                       Text(widget.recipe.manual20!),
                     if (widget.recipe.manualimg20 != '')
-                      Image.network(widget.recipe.manualimg20!),
+                      CachedNetworkImage(
+                          errorWidget: (context, url, error) {
+                            // log("error:$error");
+                            return Icon(Icons.error);
+                          },
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          imageUrl: widget.recipe.manualimg20!),
                     ElevatedButton(
                       child: Text("오늘은 이 메뉴로 확정!"),
                       onPressed: () {
