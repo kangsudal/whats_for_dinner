@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Image.network(randomRecipe.attfilenomain!), //attfilenomk
+                  Expanded(child: Image.network(randomRecipe.attfilenomain!)), //attfilenomk
                   SizedBox(
                     height: 15,
                   ),
@@ -81,6 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: Text("레시피 보기"),
+                  ),                  SizedBox(
+                    height: 35,
                   ),
                 ],
               );
