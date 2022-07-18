@@ -81,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: Text("레시피 보기"),
+                    style: ElevatedButton.styleFrom(primary: Colors.black,),
                   ),                  SizedBox(
                     height: 35,
                   ),
@@ -97,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // persistStorage.deleteAllRecipe(); //모든메뉴 삭제
           Provider.of<MenuState>(context, listen: false).shuffle();
         },
+        backgroundColor: Colors.black,
       ),
     );
   }
