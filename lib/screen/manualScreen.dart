@@ -320,6 +320,9 @@ class _ManualScreenState extends State<ManualScreen> {
                       onPressed: () {
                         bookmarkRecipe(context);
                       },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.black,
+                      ),
                     ),
                     SizedBox(height: 20),
                   ],

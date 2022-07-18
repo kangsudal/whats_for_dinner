@@ -128,7 +128,7 @@ class TitleWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 13,),
       child: Text(
-        "Favorite Recipe TOP3",
+        "Favorite",
         style: TextStyle(
             fontSize: 30, fontWeight: FontWeight.w400),
       ),
