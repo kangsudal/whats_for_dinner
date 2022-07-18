@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
@@ -34,7 +35,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
 //            print(box.isOpen);
           if (box.isNotEmpty) {
             //먹어본 음식 MapEntry(레시피:횟수) 리스트 가지고오기 많이 먹은 순서대로              : Box -> List
-            final List<MapEntry<Recipe, int>> favoriteFoods = getSortedFrequency(box);
+            final List<MapEntry<Recipe, int>> favoriteFoods =
+                getSortedFrequency(box);
             //TODO: 데이터가 많아지면 새로운 Box 만드는것 고려. (음식명:횟수)
 
             return Column(
@@ -46,9 +48,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     ),
                   ),
 //                  color: Colors.grey,
-                  height: 150,
+                  height: MediaQuery.of(context).size.height * 0.45,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      TitleWidget(),
                       Expanded(
                         child: Top3Cards(favoriteFoods: favoriteFoods),
                       ),
@@ -96,7 +100,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
     //{Instance of 'Recipe': 1, Instance of 'Recipe': 1, Instance of 'Recipe': 2}
 
     //정렬을 위해 map -> list로 변환
-    final List<MapEntry<Recipe, int>> favoriteFoods = countEatFrequencyMap.entries.toList();
+    final List<MapEntry<Recipe, int>> favoriteFoods =
+        countEatFrequencyMap.entries.toList();
 //    print(favoriteFoods);
     //[MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 2)]
 
@@ -110,6 +115,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
     //[MapEntry(Instance of 'Recipe': 2), MapEntry(Instance of 'Recipe': 1), MapEntry(Instance of 'Recipe': 1)]
 
     return favoriteFoods;
+  }
+}
+
+class TitleWidget extends StatelessWidget {
+  const TitleWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 13,),
+      child: Text(
+        "Favorite Recipe TOP3",
+        style: TextStyle(
+            fontSize: 30, fontWeight: FontWeight.w400),
+      ),
+    );
   }
 }
 
@@ -192,7 +215,7 @@ class Top3Cards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: List.generate(
         favoriteFoods.length < 3
             ? favoriteFoods.length
@@ -211,18 +234,34 @@ class Top3Cards extends StatelessWidget {
                   ),
                 );
               },
-              child: Card(
-                color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                    .withOpacity(0.5),
-                margin: EdgeInsets.all(3),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Container(
+                // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                //     .withOpacity(0.5),
+                margin: EdgeInsets.symmetric(vertical: 3,horizontal: 20,),
+                child: Row(
                   children: [
-                    Text(food.rcpnm!),
-                    Text(
-                      "${eatFreq.toString()}번 먹었어요",
-                      style: TextStyle(
-                        fontSize: 10,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: CachedNetworkImage(
+                        imageUrl: food.attfilenomain!,
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(food.rcpnm!),
+                          Text(
+                            "${eatFreq.toString()}번 먹었어요",
+                            style: TextStyle(
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
