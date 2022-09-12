@@ -22,13 +22,13 @@ class MenuState extends ChangeNotifier {
   }
 
   Future<void> shuffle() async {
-    PersistStorage persistStorage = PersistStorage();
-    int _maxIdx = await persistStorage.allRecipesLength;
+    Box<Recipe> recipeBox = await Hive.box('recipeBox');
+    int _maxIdx = recipeBox.length;
     print("_maxIdx: $_maxIdx, ");
     if (_maxIdx != 0) {
       int _randomIdx = Random().nextInt(_maxIdx);
       print("_randomIdx: $_randomIdx, ");
-      randomRecipe = await persistStorage.loadRecipeAt(_randomIdx);
+      randomRecipe = await recipeBox.getAt(_randomIdx);
     }else if(_maxIdx ==0){
       randomRecipe = null;
     }
