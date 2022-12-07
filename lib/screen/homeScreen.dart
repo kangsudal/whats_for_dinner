@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
 import 'package:whats_for_dinner/model/persistStorage.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
+import 'package:whats_for_dinner/screen/restaurantScreen.dart';
 
 import 'historyScreen.dart';
 import 'manualScreen.dart';
@@ -64,23 +65,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Expanded(child: Image.network(randomRecipe.attfilenomain!)), //attfilenomk
+                  Expanded(
+                      child: Image.network(
+                          randomRecipe.attfilenomain!)), //attfilenomk
                   SizedBox(
                     height: 15,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ManualScreen(menuState.randomRecipe!),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ManualScreen(menuState.randomRecipe!),
+                            ),
+                          );
+                        },
+                        child: Text("레시피 보기"),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black,
                         ),
-                      );
-                    },
-                    child: Text("레시피 보기"),
-                    style: ElevatedButton.styleFrom(primary: Colors.black,),
-                  ),                  SizedBox(
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  RestaurantScreen(menuState.randomRecipe!),
+                            ),
+                          );
+                        },
+                        child: Text('식당찾기'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
                     height: 35,
                   ),
                 ],
