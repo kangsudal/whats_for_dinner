@@ -131,7 +131,7 @@ class CustomGoogleMap extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Future<LatLng> getLatLng() async {
+  Future<LatLng> getCenterLatLng() async {
     final _locationData = await Geolocator.getCurrentPosition();
     return LatLng(_locationData.latitude, _locationData.longitude);
   }
@@ -141,7 +141,7 @@ class CustomGoogleMap extends StatelessWidget {
     return Expanded(
       flex: 3,
       child: FutureBuilder<LatLng>(
-        future: getLatLng(),
+        future: getCenterLatLng(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -149,28 +149,28 @@ class CustomGoogleMap extends StatelessWidget {
             );
           }
           if (snapshot.hasData) {
-            final locationModel = snapshot.data!;
+            final LatLng locationModel = snapshot.data!;
             final latitude = locationModel.latitude;
             final longitude = locationModel.longitude;
-
+            final List<Marker> markers = [
+              Marker(
+                markerId: MarkerId('ChIJe9OYkqCjfDURy2RHvTcgGU0'),
+                position: LatLng(37.5781378, 126.9712453),
+              ),
+              Marker(
+                markerId: MarkerId('ChIJq1M2akajfDURbD4e59UQJRY'),
+                position: LatLng(37.5828419, 127.0013811),
+              )
+            ];
             return GoogleMap(
               onCameraMove: (CameraPosition cameraPosition) {
                 print(cameraPosition.zoom);
               },
               initialCameraPosition:
-                  CameraPosition(target: locationModel, zoom: 15.0),
+                  CameraPosition(target: locationModel, zoom: 11.0),
               myLocationEnabled: true, //현위치 표시
-              circles: Set.from(
-                [
-                  Circle(
-                    circleId: CircleId('circle'),
-                    center: locationModel,
-                    fillColor: Colors.blue.withOpacity(0.05),
-                    radius: 1700,
-                    strokeColor: Colors.blue,
-                    strokeWidth: 1,
-                  ),
-                ],
+              markers: Set.from(
+                markers
               ),
             );
           }
