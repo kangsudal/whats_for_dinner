@@ -160,6 +160,18 @@ class CustomGoogleMap extends StatelessWidget {
               initialCameraPosition:
                   CameraPosition(target: locationModel, zoom: 15.0),
               myLocationEnabled: true, //현위치 표시
+              circles: Set.from(
+                [
+                  Circle(
+                    circleId: CircleId('circle'),
+                    center: locationModel,
+                    fillColor: Colors.blue.withOpacity(0.05),
+                    radius: 1700,
+                    strokeColor: Colors.blue,
+                    strokeWidth: 1,
+                  ),
+                ],
+              ),
             );
           }
           return Center(
