@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: CachedNetworkImage(
                       imageUrl: randomRecipe.attfilenomain!,
                       placeholder: (context, url) =>
-                          CircularProgressIndicator(),
+                          Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ), //attfilenomk
