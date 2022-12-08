@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
@@ -66,8 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 15,
                   ),
                   Expanded(
-                      child: Image.network(
-                          randomRecipe.attfilenomain!)), //attfilenomk
+                    child: CachedNetworkImage(
+                      imageUrl: randomRecipe.attfilenomain!,
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ), //attfilenomk
                   SizedBox(
                     height: 15,
                   ),
