@@ -31,8 +31,10 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def googleMapsApiKey = keystoreProperties.getProperty('google.maps.apiKey')
+
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     ndkVersion "23.1.7779620"
 
     sourceSets {
@@ -47,6 +49,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+        manifestPlaceholders += [googleMapsApiKey: googleMapsApiKey]
     }
 /* 디버그 모드일때 주석쳐아하는부분 */
     signingConfigs {
