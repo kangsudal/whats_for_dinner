@@ -142,6 +142,9 @@ class CustomGoogleMap extends StatefulWidget {
 
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
   GoogleMapController? _controller;
+
+  List<Marker> allMarkers = [];
+
   Future<LatLng> getCenterLatLng() async {
     final _locationData = await Geolocator.getCurrentPosition();
     return LatLng(_locationData.latitude, _locationData.longitude);
@@ -153,9 +156,10 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     fetchData();
   }
 
-  fetchData() async {
+  Future<LatLng> fetchData() async {
     //https://developers.google.com/maps/documentation/places/web-service/search-text 텍스트검색
     LatLng currentLatLng = await getCenterLatLng();
+
     var url =
         Uri.https('maps.googleapis.com', 'maps/api/place/textsearch/json', {
       'key': dotenv.env['googleMapsAPIKey'],
@@ -165,53 +169,54 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     final response = await http.get(url);
     String body = response.body;
     final decodedResponse = jsonDecode(body);
-    print(
-        "Response:${decodedResponse['results'].map((item) => Restaurant.fromJson(json: item))}");
+
+    List<Restaurant> restaurants = decodedResponse['results']
+        .map<Restaurant>((item) => Restaurant.fromJson(json: item))
+        .toList();
+    restaurants.forEach((element) {
+      allMarkers.add(
+        Marker(
+          markerId: MarkerId(element.place_id),
+          draggable: false,
+          infoWindow: InfoWindow(
+            title: element.name,
+            snippet: element.address,
+          ),
+          position: element.locationCoords,
+        ),
+      );
+    });
+    print("==========================================$allMarkers");
+    return currentLatLng;
   }
 
   @override
   Widget build(BuildContext context) {
-    // return Expanded(
-    //   flex: 3,
-    //   child: FutureBuilder<LatLng>(
-    //     future: getCenterLatLng(),
-    //     builder: (context, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return Center(
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       }
-    //       if (snapshot.hasData) {
-    //         final LatLng locationModel = snapshot.data!;
-    //         final List<Marker> markers = [
-    //           Marker(
-    //             markerId: MarkerId('ChIJe9OYkqCjfDURy2RHvTcgGU0'),
-    //             position: LatLng(37.5781378, 126.9712453),
-    //           ),
-    //           Marker(
-    //             markerId: MarkerId('ChIJq1M2akajfDURbD4e59UQJRY'),
-    //             position: LatLng(37.5828419, 127.0013811),
-    //           )
-    //         ];
-    //         return GoogleMap(
-    //           onCameraMove: (CameraPosition cameraPosition) {
-    //             print(cameraPosition.zoom);
-    //           },
-    //           initialCameraPosition:
-    //               CameraPosition(target: locationModel, zoom: 11.0),//카메라 시작위치는 현위치로 설정했음
-    //           myLocationEnabled: true, //현위치 표시
-    //           onMapCreated: mapCreated,//뭔진 모르겠음. 영상(https://www.youtube.com/watch?v=CjhXyY_92xU&t=454s)보고 따라했음
-    //           markers: Set.from(markers),
-    //           // indoorViewEnabled: ,
-    //         );
-    //       }
-    //       return Center(
-    //         child: Text('현위치의 지도를 불러오지 못했습니다.'),
-    //       );
-    //     },
-    //   ),
-    // );
-    return Expanded(child: Placeholder());
+    print('=======================================here too?: $allMarkers');
+    return Expanded(
+      child: FutureBuilder<LatLng>(
+          future: fetchData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: snapshot.data!,
+                  zoom: 12,
+                ),
+                onMapCreated: mapCreated,
+                markers: Set.from(allMarkers),
+              );
+            }
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
+    );
   }
 
   void mapCreated(controller) {
@@ -227,7 +232,7 @@ class RestaurantList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 2,
+      flex: 1,
       child: ListView.separated(
         itemBuilder: (context, idx) {
           return ListTile(
