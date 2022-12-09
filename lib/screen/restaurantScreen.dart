@@ -38,7 +38,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   recipe: widget.recipe,
                 ),
                 CustomGoogleMap(),
-                RestaurantList(),
+                // RestaurantList(),
               ],
             );
           }
@@ -99,8 +99,8 @@ class SearchField extends StatelessWidget {
       ingredient2 = rcppartsdtls[1].split(',')[0];
     }
 
-    return Expanded(
-      flex: 1,
+    return SizedBox(
+      height: 130,
       child: Column(
         children: [
           Row(
@@ -150,11 +150,10 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     return LatLng(_locationData.latitude, _locationData.longitude);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   Future<LatLng> fetchData() async {
     //https://developers.google.com/maps/documentation/places/web-service/search-text 텍스트검색
@@ -186,15 +185,14 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         ),
       );
     });
-    print("==========================================$allMarkers");
     return currentLatLng;
   }
 
   @override
   Widget build(BuildContext context) {
-    print('=======================================here too?: $allMarkers');
     return Expanded(
       child: FutureBuilder<LatLng>(
+          //initState보다 구글맵이 빨리열려서 FutureBuilder를 사용했음(안그럼 마커 List가 비어있는상태로 불러와져서)
           future: fetchData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -226,25 +224,3 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   }
 }
 
-class RestaurantList extends StatelessWidget {
-  const RestaurantList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: ListView.separated(
-        itemBuilder: (context, idx) {
-          return ListTile(
-            title: Text('가게명'),
-            subtitle: Text('주소'),
-          );
-        },
-        itemCount: 5,
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider();
-        },
-      ),
-    );
-  }
-}
