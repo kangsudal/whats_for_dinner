@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:whats_for_dinner/model/restaurant_model.dart';
 
 class RestaurantScreen extends StatefulWidget {
   final Recipe recipe;
@@ -126,60 +131,93 @@ class SearchField extends StatelessWidget {
   }
 }
 
-class CustomGoogleMap extends StatelessWidget {
+class CustomGoogleMap extends StatefulWidget {
   const CustomGoogleMap({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<CustomGoogleMap> createState() => _CustomGoogleMapState();
+}
+
+class _CustomGoogleMapState extends State<CustomGoogleMap> {
+  GoogleMapController? _controller;
   Future<LatLng> getCenterLatLng() async {
     final _locationData = await Geolocator.getCurrentPosition();
     return LatLng(_locationData.latitude, _locationData.longitude);
   }
 
   @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  fetchData() async {
+    //https://developers.google.com/maps/documentation/places/web-service/search-text 텍스트검색
+    LatLng currentLatLng = await getCenterLatLng();
+    var url =
+        Uri.https('maps.googleapis.com', 'maps/api/place/textsearch/json', {
+      'key': dotenv.env['googleMapsAPIKey'],
+      'query': '마제소바',
+      'location': '${currentLatLng.latitude},${currentLatLng.longitude}',
+    });
+    final response = await http.get(url);
+    String body = response.body;
+    final decodedResponse = jsonDecode(body);
+    print(
+        "Response:${decodedResponse['results'].map((item) => Restaurant.fromJson(json: item))}");
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: FutureBuilder<LatLng>(
-        future: getCenterLatLng(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData) {
-            final LatLng locationModel = snapshot.data!;
-            final latitude = locationModel.latitude;
-            final longitude = locationModel.longitude;
-            final List<Marker> markers = [
-              Marker(
-                markerId: MarkerId('ChIJe9OYkqCjfDURy2RHvTcgGU0'),
-                position: LatLng(37.5781378, 126.9712453),
-              ),
-              Marker(
-                markerId: MarkerId('ChIJq1M2akajfDURbD4e59UQJRY'),
-                position: LatLng(37.5828419, 127.0013811),
-              )
-            ];
-            return GoogleMap(
-              onCameraMove: (CameraPosition cameraPosition) {
-                print(cameraPosition.zoom);
-              },
-              initialCameraPosition:
-                  CameraPosition(target: locationModel, zoom: 11.0),
-              myLocationEnabled: true, //현위치 표시
-              markers: Set.from(
-                markers
-              ),
-            );
-          }
-          return Center(
-            child: Text('현위치의 지도를 불러오지 못했습니다.'),
-          );
-        },
-      ),
-    );
+    // return Expanded(
+    //   flex: 3,
+    //   child: FutureBuilder<LatLng>(
+    //     future: getCenterLatLng(),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return Center(
+    //           child: CircularProgressIndicator(),
+    //         );
+    //       }
+    //       if (snapshot.hasData) {
+    //         final LatLng locationModel = snapshot.data!;
+    //         final List<Marker> markers = [
+    //           Marker(
+    //             markerId: MarkerId('ChIJe9OYkqCjfDURy2RHvTcgGU0'),
+    //             position: LatLng(37.5781378, 126.9712453),
+    //           ),
+    //           Marker(
+    //             markerId: MarkerId('ChIJq1M2akajfDURbD4e59UQJRY'),
+    //             position: LatLng(37.5828419, 127.0013811),
+    //           )
+    //         ];
+    //         return GoogleMap(
+    //           onCameraMove: (CameraPosition cameraPosition) {
+    //             print(cameraPosition.zoom);
+    //           },
+    //           initialCameraPosition:
+    //               CameraPosition(target: locationModel, zoom: 11.0),//카메라 시작위치는 현위치로 설정했음
+    //           myLocationEnabled: true, //현위치 표시
+    //           onMapCreated: mapCreated,//뭔진 모르겠음. 영상(https://www.youtube.com/watch?v=CjhXyY_92xU&t=454s)보고 따라했음
+    //           markers: Set.from(markers),
+    //           // indoorViewEnabled: ,
+    //         );
+    //       }
+    //       return Center(
+    //         child: Text('현위치의 지도를 불러오지 못했습니다.'),
+    //       );
+    //     },
+    //   ),
+    // );
+    return Expanded(child: Placeholder());
+  }
+
+  void mapCreated(controller) {
+    setState(() {
+      _controller = controller;
+    });
   }
 }
 
@@ -190,8 +228,17 @@ class RestaurantList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 2,
-      child: Container(
-        child: Text('리스트 1,2,3'),
+      child: ListView.separated(
+        itemBuilder: (context, idx) {
+          return ListTile(
+            title: Text('가게명'),
+            subtitle: Text('주소'),
+          );
+        },
+        itemCount: 5,
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider();
+        },
       ),
     );
   }
