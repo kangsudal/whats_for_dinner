@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 /*
 Marker infoWindow
 https://www.youtube.com/watch?v=CjhXyY_92xU&t=454s
@@ -30,8 +31,10 @@ class Restaurant {
   Restaurant.fromJson({required Map<String, dynamic> json})
       : name = json['name'],
         address = json['formatted_address'],
-        thumbnail = parseThumbnail(
-            json['photos'][0]['photo_reference']), //첫번째 사진을 썸네일로 받아온다
+        thumbnail = json['pohtos'] == null
+            ? 'assets/icon/icon.png'
+            : parseThumbnail(
+                json['photos'][0]['photo_reference']), //첫번째 사진을 썸네일로 받아온다, 'photos'가 없는 것도 있다
         locationCoords = LatLng(json['geometry']['location']['lat'],
             json['geometry']['location']['lng']),
         place_id = json['place_id'];

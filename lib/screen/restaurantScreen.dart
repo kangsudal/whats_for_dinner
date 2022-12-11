@@ -37,7 +37,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 SearchField(
                   recipe: widget.recipe,
                 ),
-                CustomGoogleMap(),
+                CustomGoogleMap(
+                  rcpnm: widget.recipe.rcpnm!,
+                ),
                 // RestaurantList(),
               ],
             );
@@ -132,7 +134,9 @@ class SearchField extends StatelessWidget {
 }
 
 class CustomGoogleMap extends StatefulWidget {
+  final String rcpnm;
   const CustomGoogleMap({
+    required this.rcpnm,
     Key? key,
   }) : super(key: key);
 
@@ -162,29 +166,33 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     var url =
         Uri.https('maps.googleapis.com', 'maps/api/place/textsearch/json', {
       'key': dotenv.env['googleMapsAPIKey'],
-      'query': '마제소바',
+      'query': widget.rcpnm,//'마제소바',
       'location': '${currentLatLng.latitude},${currentLatLng.longitude}',
+      'language': 'kr',
     });
     final response = await http.get(url);
     String body = response.body;
     final decodedResponse = jsonDecode(body);
-
-    List<Restaurant> restaurants = decodedResponse['results']
-        .map<Restaurant>((item) => Restaurant.fromJson(json: item))
-        .toList();
-    restaurants.forEach((element) {
-      allMarkers.add(
-        Marker(
-          markerId: MarkerId(element.place_id),
-          draggable: false,
-          infoWindow: InfoWindow(
-            title: element.name,
-            snippet: element.address,
+    try {
+      List<Restaurant> restaurants = decodedResponse['results']
+          .map<Restaurant>((item) => Restaurant.fromJson(json: item))
+          .toList();
+      restaurants.forEach((element) {
+        allMarkers.add(
+          Marker(
+            markerId: MarkerId(element.place_id),
+            draggable: false,
+            infoWindow: InfoWindow(
+              title: element.name,
+              snippet: element.address,
+            ),
+            position: element.locationCoords,
           ),
-          position: element.locationCoords,
-        ),
-      );
-    });
+        );
+      });
+    } catch (e) {
+      print(e);
+    }
     return currentLatLng;
   }
 
@@ -207,6 +215,9 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
             }
             if (snapshot.hasError) {
               return Center(
+                child: Text('마땅한 식당이 없습니다. ㅠㅠ 검색어를 수정해서 찾아보실래요?'),
+              );
+              return Center(
                 child: Text(snapshot.error.toString()),
               );
             }
@@ -223,4 +234,3 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     });
   }
 }
-
