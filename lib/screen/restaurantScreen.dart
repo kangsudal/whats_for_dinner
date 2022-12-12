@@ -1,22 +1,28 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:whats_for_dinner/model/restaurant_model.dart';
+import 'package:whats_for_dinner/model/restaurant_provider.dart';
 
-class RestaurantScreen extends StatefulWidget {
+class RestaurantScreen extends ConsumerStatefulWidget {
   final Recipe recipe;
   const RestaurantScreen(this.recipe, {Key? key}) : super(key: key);
 
   @override
-  State<RestaurantScreen> createState() => _RestaurantScreenState();
+  ConsumerState<RestaurantScreen> createState() => _RestaurantScreenState();
 }
 
-class _RestaurantScreenState extends State<RestaurantScreen> {
+class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +81,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       return '앱의 위치 권한을 세팅에서 허가해주세요.';
     }
     //위에 아무것도 안걸리고 모든게 통과되면
+    ref.read(searchTextProvider.notifier).update((state) => widget.recipe.rcpnm!);//이 위치에 넣어줘야한다 중요 ★★★★★★ FutureBuilder가 위젯트리를 생성하기 전에!
     return '위치 권한이 허가되었습니다.';
   }
 }
@@ -133,118 +140,53 @@ class SearchField extends StatelessWidget {
   }
 }
 
-class CustomGoogleMap extends StatefulWidget {
+class CustomGoogleMap extends ConsumerWidget {
   final String rcpnm;
-  const CustomGoogleMap({
+  CustomGoogleMap({
     required this.rcpnm,
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<CustomGoogleMap> createState() => _CustomGoogleMapState();
-}
-
-class MyData {
-  List<Marker> markers;
-  LatLng currentPosition;
-
-  MyData({required this.markers, required this.currentPosition});
-}
-
-class _CustomGoogleMapState extends State<CustomGoogleMap> {
   GoogleMapController? _controller;
 
-  Future<LatLng> getCenterLatLng() async {
-    final _locationData = await Geolocator.getCurrentPosition();
-    return LatLng(_locationData.latitude, _locationData.longitude);
-  }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
-
-  Future<MyData> fetchData() async {
-    //https://developers.google.com/maps/documentation/places/web-service/search-text 텍스트검색
-    // LatLng currentLatLng = await getCenterLatLng();
-    final _locationData = await Geolocator.getCurrentPosition();
-    LatLng currentLatLng = LatLng(_locationData.latitude, _locationData.longitude);
-
-    List<Marker> allMarkers = [];
-    var url =
-        Uri.https('maps.googleapis.com', 'maps/api/place/textsearch/json', {
-      'key': dotenv.env['googleMapsAPIKey'],
-      'query': widget.rcpnm, //'마제소바',
-      'location': '${_locationData.latitude},${_locationData.longitude}',
-      'language': 'kr',
-    });
-    print(url);
-    final response = await http.get(url);
-    String body = response.body;
-    final decodedResponse = jsonDecode(body);
-    try {
-      List<Restaurant> restaurants = decodedResponse['results']
-          .map<Restaurant>((item) => Restaurant.fromJson(json: item))
-          .toList();
-      restaurants.forEach((element) {
-        allMarkers.add(
-          Marker(
-            markerId: MarkerId(element.place_id),
-            draggable: false,
-            infoWindow: InfoWindow(
-              title: element.name,
-              snippet: element.address,
+  @override
+  Widget build(BuildContext context, ref) {
+    final googleMapDataFuture = ref.watch(googleMapDataFutureProvider);
+    return googleMapDataFuture.when(
+      data: (data) {
+        if (data!.markers.length == 0) {
+          return Expanded(
+            child: Center(
+              child: Text('마땅한 식당이 없습니다. ㅠㅠ 검색어를 수정해서 찾아보실래요?'),
             ),
-            position: element.locationCoords,
+          );
+        }
+        return Expanded(child: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: data!.currentPosition,
+            zoom: 12,
+          ),
+          // onMapCreated: mapCreated,
+          markers: Set.from(data!.markers),
+        ),);
+      },
+      error: (error, stack) {
+        return Expanded(
+          child: Center(
+            child: Text('마땅한 식당이 없습니다. ㅠㅠ 검색어를 수정해서 찾아보실래요?'),
           ),
         );
-      });
-    } catch (e) {
-      print(e);
-    }
-    return MyData(markers: allMarkers, currentPosition: currentLatLng);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: FutureBuilder<MyData>(
-          //initState보다 구글맵이 빨리열려서 FutureBuilder를 사용했음(안그럼 마커 List가 비어있는상태로 불러와져서)
-          future: fetchData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if(snapshot.data!.markers.length==0){
-                return Center(
-                  child: Text('마땅한 식당이 없습니다. ㅠㅠ 검색어를 수정해서 찾아보실래요?'),
-                );
-              }
-              return GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: snapshot.data!.currentPosition,
-                  zoom: 12,
-                ),
-                onMapCreated: mapCreated,
-                markers: Set.from(snapshot.data!.markers),
-              );
-            }
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('마땅한 식당이 없습니다. ㅠㅠ 검색어를 수정해서 찾아보실래요?'),
-              );
-              return Center(
-                child: Text(snapshot.error.toString()),
-              );
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }),
+        return Expanded(child: Center(
+          child: Text(error.toString()),
+        ),);
+      },
+      loading: () => Expanded(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
+
   }
 
-  void mapCreated(controller) {
-    setState(() {
-      _controller = controller;
-    });
-  }
 }
