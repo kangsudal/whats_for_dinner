@@ -174,7 +174,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     var url =
         Uri.https('maps.googleapis.com', 'maps/api/place/textsearch/json', {
       'key': dotenv.env['googleMapsAPIKey'],
-      'query': '토마토 채소 계란찜',//widget.rcpnm, //'마제소바',
+      'query': widget.rcpnm, //'마제소바',
       'location': '${_locationData.latitude},${_locationData.longitude}',
       'language': 'kr',
     });
