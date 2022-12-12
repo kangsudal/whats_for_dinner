@@ -166,15 +166,19 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
 
   Future<MyData> fetchData() async {
     //https://developers.google.com/maps/documentation/places/web-service/search-text 텍스트검색
-    LatLng currentLatLng = await getCenterLatLng();
+    // LatLng currentLatLng = await getCenterLatLng();
+    final _locationData = await Geolocator.getCurrentPosition();
+    LatLng currentLatLng = LatLng(_locationData.latitude, _locationData.longitude);
+
     List<Marker> allMarkers = [];
     var url =
         Uri.https('maps.googleapis.com', 'maps/api/place/textsearch/json', {
       'key': dotenv.env['googleMapsAPIKey'],
-      'query': widget.rcpnm, //'마제소바',
-      'location': '${currentLatLng.latitude},${currentLatLng.longitude}',
+      'query': '토마토 채소 계란찜',//widget.rcpnm, //'마제소바',
+      'location': '${_locationData.latitude},${_locationData.longitude}',
       'language': 'kr',
     });
+    print(url);
     final response = await http.get(url);
     String body = response.body;
     final decodedResponse = jsonDecode(body);
@@ -209,6 +213,11 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
           future: fetchData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if(snapshot.data!.markers.length==0){
+                return Center(
+                  child: Text('마땅한 식당이 없습니다. ㅠㅠ 검색어를 수정해서 찾아보실래요?'),
+                );
+              }
               return GoogleMap(
                 initialCameraPosition: CameraPosition(
                   target: snapshot.data!.currentPosition,
