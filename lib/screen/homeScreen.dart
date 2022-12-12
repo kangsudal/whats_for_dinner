@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
+import 'package:shake/shake.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
 import 'package:whats_for_dinner/model/persistStorage.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
@@ -9,7 +11,7 @@ import 'package:whats_for_dinner/screen/restaurantScreen.dart';
 import 'historyScreen.dart';
 import 'manualScreen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({
     Key? key,
   }) : super(key: key);
@@ -18,9 +20,20 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ShakeDetector detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        ref.read(menuProvider.notifier).shuffle();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final menu = ref.watch(menuProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -49,15 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Center(
-        child: Consumer<MenuState>(
-          builder: (context, menuState, child) {
-            var randomRecipe = menuState.randomRecipe;
-            if (menuState.randomRecipe != null) {
-//              src = src.replaceFirst("http", "https");
-              return Column(
+        child: menu != null
+            ? Column(
                 children: [
                   Text(
-                    randomRecipe!.rcpnm!,
+                    menu.rcpnm!,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -68,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Expanded(
                     child: CachedNetworkImage(
-                      imageUrl: randomRecipe.attfilenomain!,
+                      imageUrl: menu.attfilenomain!,
                       placeholder: (context, url) =>
                           Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) => Icon(Icons.error),
@@ -85,8 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  ManualScreen(menuState.randomRecipe!),
+                              builder: (context) => ManualScreen(menu),
                             ),
                           );
                         },
@@ -103,8 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  RestaurantScreen(menuState.randomRecipe!),
+                              builder: (context) => RestaurantScreen(menu),
                             ),
                           );
                         },
@@ -116,17 +123,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 35,
                   ),
                 ],
-              );
-            }
-            return Text("흔들어주세요!");
-          },
-        ),
+              )
+            : Text("흔들어주세요!"),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.refresh),
         onPressed: () {
           // persistStorage.deleteAllRecipe(); //모든메뉴 삭제
-          Provider.of<MenuState>(context, listen: false).shuffle();
+          ref.read(menuProvider.notifier).shuffle();
         },
         backgroundColor: Colors.black,
       ),
