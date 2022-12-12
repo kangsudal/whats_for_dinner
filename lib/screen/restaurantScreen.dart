@@ -144,10 +144,15 @@ class CustomGoogleMap extends StatefulWidget {
   State<CustomGoogleMap> createState() => _CustomGoogleMapState();
 }
 
+class MyData {
+  List<Marker> markers;
+  LatLng currentPosition;
+
+  MyData({required this.markers, required this.currentPosition});
+}
+
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
   GoogleMapController? _controller;
-
-  List<Marker> allMarkers = [];
 
   Future<LatLng> getCenterLatLng() async {
     final _locationData = await Geolocator.getCurrentPosition();
@@ -159,14 +164,14 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   //   super.initState();
   // }
 
-  Future<LatLng> fetchData() async {
+  Future<MyData> fetchData() async {
     //https://developers.google.com/maps/documentation/places/web-service/search-text 텍스트검색
     LatLng currentLatLng = await getCenterLatLng();
-
+    List<Marker> allMarkers = [];
     var url =
         Uri.https('maps.googleapis.com', 'maps/api/place/textsearch/json', {
       'key': dotenv.env['googleMapsAPIKey'],
-      'query': widget.rcpnm,//'마제소바',
+      'query': widget.rcpnm, //'마제소바',
       'location': '${currentLatLng.latitude},${currentLatLng.longitude}',
       'language': 'kr',
     });
@@ -193,24 +198,24 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     } catch (e) {
       print(e);
     }
-    return currentLatLng;
+    return MyData(markers: allMarkers, currentPosition: currentLatLng);
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: FutureBuilder<LatLng>(
+      child: FutureBuilder<MyData>(
           //initState보다 구글맵이 빨리열려서 FutureBuilder를 사용했음(안그럼 마커 List가 비어있는상태로 불러와져서)
           future: fetchData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GoogleMap(
                 initialCameraPosition: CameraPosition(
-                  target: snapshot.data!,
+                  target: snapshot.data!.currentPosition,
                   zoom: 12,
                 ),
                 onMapCreated: mapCreated,
-                markers: Set.from(allMarkers),
+                markers: Set.from(snapshot.data!.markers),
               );
             }
             if (snapshot.hasError) {
