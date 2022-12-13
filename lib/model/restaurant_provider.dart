@@ -1,14 +1,17 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:whats_for_dinner/main.dart';
 import 'package:whats_for_dinner/model/restaurant_model.dart';
-
+import 'package:whats_for_dinner/screen/webViewScreen.dart';
+//TextField에서 String 데이터를 저장하는 provider
 final searchTextProvider = StateProvider<String>((ref) => '');
-
+//원하는 조건의 markers를 표시한 GoogleMap을 띄워주는,  FutureProvider
 class MyData {
   List<Marker> markers;
   LatLng currentPosition;
@@ -46,6 +49,7 @@ Future<MyData> fetchData(String keyword) async {
           infoWindow: InfoWindow(
             title: element.name,
             snippet: element.address,
+            onTap: ()=>openWebView(element),
           ),
           position: element.locationCoords,
         ),
@@ -61,3 +65,9 @@ final googleMapDataFutureProvider = FutureProvider<MyData>((ref) async {
   final keyword = ref.watch(searchTextProvider);
   return await fetchData(keyword);
 });
+//원하는 조건의 markers를 표시한 GoogleMap을 띄워주는,  FutureProvider -end
+void openWebView(Restaurant restaurant){
+  navigatorKey.currentState!.push(MaterialPageRoute(
+    builder: (context) => WebViewScreen(),settings: RouteSettings(arguments: restaurant),
+  ));;
+}

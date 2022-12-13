@@ -1,6 +1,7 @@
 //import 'dart:convert';
 
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -66,12 +67,14 @@ Future<void> fetchDataFromLocal(Box<Recipe> recipeBox) async {
   }
 }
 
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    fetchAlbum();
     return MaterialApp(
       home: HomeScreen(),
+      navigatorKey: navigatorKey,
     );
   }
 }
