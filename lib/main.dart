@@ -1,8 +1,11 @@
 //import 'dart:convert';
 
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +18,8 @@ import 'package:http/http.dart' as http;
 //
 //import 'model/recipe.dart';
 final String tableName = 'eatNote_table';
-void main() async {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   await Hive.initFlutter();
   Hive.registerAdapter(EatNoteAdapter());
   Hive.registerAdapter(RecipeAdapter());
@@ -31,8 +35,7 @@ void main() async {
 //    }
   }
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => MenuState(),
+    ProviderScope(
       child: MyApp(),
     ),
   );
@@ -64,12 +67,14 @@ Future<void> fetchDataFromLocal(Box<Recipe> recipeBox) async {
   }
 }
 
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    fetchAlbum();
     return MaterialApp(
       home: HomeScreen(),
+      navigatorKey: navigatorKey,
     );
   }
 }
