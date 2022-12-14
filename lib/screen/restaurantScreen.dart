@@ -29,6 +29,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('식당찾기'),
+        backgroundColor: Colors.black,
       ),
       body: FutureBuilder(
         future: checkPermission(),
@@ -112,14 +113,14 @@ class _SearchFieldState extends ConsumerState<SearchField> {
     String ingredient1;
     String ingredient2;
     List<String> rcppartsdtls = widget.recipe.rcppartsdtls!.split('\n');
-    if (rcppartsdtls[0].contains(',')) {
+    if (rcppartsdtls[0].contains(',')) {//"재료 가다랑어포(5g), 오이(5g), 깻잎(1g)\n육수 무(50g), 다시마(1g), 대파(10g), 물(500g)\n => ingredient1: 재료 가다랑어포, ingredient2: 오이
       ingredient1 = rcppartsdtls[0].split(',')[0];
       ingredient2 = rcppartsdtls[0].split(',')[1];
-    } else {
+    } else {//"고추장전\n옥수수콘 50g(2큰술), 당근 5g(1/20개), 표고버섯 5g(1개)" => ingredient1: 고추장전, ingredient2: 옥수수콘
       ingredient1 = rcppartsdtls[0];
       ingredient2 = rcppartsdtls[1].split(',')[0];
     }
-    hashTag = (hashTag == "") ? '$ingredient1 $ingredient2' : hashTag;
+    hashTag = (hashTag == "") ? '$ingredient1 $ingredient2' : hashTag; //hashTag가 비어있으면 재료를 대신 넣는다. 
     controller1 = TextEditingController(text: keyword);
     controller2 = TextEditingController(text: hashTag);
   }

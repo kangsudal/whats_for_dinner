@@ -100,7 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         },
                         child: Text("레시피 보기"),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
+                          backgroundColor: Colors.black,
                         ),
                       ),
                       SizedBox(
@@ -116,6 +116,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           );
                         },
                         child: Text('식당찾기'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                        ),
                       ),
                     ],
                   ),
