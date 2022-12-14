@@ -50,3 +50,6 @@ app.*.map.json
 .firebaserc
 firebase-tools-instant-win.exe
 firebase.json
+
+#googlemap
+*.env

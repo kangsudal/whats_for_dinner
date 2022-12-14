@@ -39,6 +39,9 @@ dependencies:
   flutter_riverpod: ^2.1.1
   google_maps_flutter: ^2.2.1
   geolocator: ^9.0.2
+  flutter_dotenv: ^5.0.2
+  webview_flutter: ^3.0.4
+  url_launcher: ^6.1.7 #웹뷰안에서 전화걸기
 
 dev_dependencies:
   hive_generator: ^1.1.0
@@ -64,6 +67,7 @@ flutter:
   uses-material-design: true
   assets:
     - source/
+    - .env
 
   # To add assets to your application, add an assets section, like this:
   # assets:
