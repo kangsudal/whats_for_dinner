@@ -201,6 +201,7 @@ class CustomGoogleMap extends ConsumerWidget {
             ),
             // onMapCreated: mapCreated,
             markers: Set.from(data!.markers),
+            myLocationEnabled: true,
           ),
         );
       },

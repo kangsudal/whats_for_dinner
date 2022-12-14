@@ -41,6 +41,7 @@ dependencies:
   geolocator: ^9.0.2
   flutter_dotenv: ^5.0.2
   webview_flutter: ^3.0.4
+  url_launcher: ^6.1.7 #웹뷰안에서 전화걸기
 
 dev_dependencies:
   hive_generator: ^1.1.0
