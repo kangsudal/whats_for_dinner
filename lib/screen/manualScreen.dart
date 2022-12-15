@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:whats_for_dinner/model/eatNote.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
 import 'package:share_files_and_screenshot_widgets_plus/share_files_and_screenshot_widgets_plus.dart';
+import 'package:whats_for_dinner/screen/restaurantScreen.dart';
 
 class ManualScreen extends StatefulWidget {
   final Recipe recipe;
@@ -321,7 +322,7 @@ class _ManualScreenState extends State<ManualScreen> {
                         bookmarkRecipe(context);
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
+                        backgroundColor: Colors.black,
                       ),
                     ),
                     SizedBox(height: 20),
@@ -332,6 +333,19 @@ class _ManualScreenState extends State<ManualScreen> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RestaurantScreen(widget.recipe),
+            ),
+          );
+        },
+        child: Text('식당'),
+        backgroundColor: Colors.black,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 
