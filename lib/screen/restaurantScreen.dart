@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:rive/rive.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -173,17 +174,29 @@ class _SearchFieldState extends ConsumerState<SearchField> {
   }
 }
 
-class CustomGoogleMap extends ConsumerWidget {
+class CustomGoogleMap extends ConsumerStatefulWidget {
   final String rcpnm;
   CustomGoogleMap({
     required this.rcpnm,
     Key? key,
   }) : super(key: key);
 
+  @override
+  ConsumerState<CustomGoogleMap> createState() => _CustomGoogleMapState();
+}
+
+class _CustomGoogleMapState extends ConsumerState<CustomGoogleMap> {
   GoogleMapController? _controller;
+  late RiveAnimationController indicatorController;
 
   @override
-  Widget build(BuildContext context, ref) {
+  void initState() {
+    super.initState();
+    indicatorController = SimpleAnimation('active');
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final googleMapDataFuture = ref.watch(googleMapDataFutureProvider);
     return googleMapDataFuture.when(
       data: (data) {
@@ -220,7 +233,18 @@ class CustomGoogleMap extends ConsumerWidget {
       },
       loading: () => Expanded(
         child: Center(
-          child: CircularProgressIndicator(),
+            child: SizedBox(
+              width: 500,
+              height: 500,
+              child: RiveAnimation.asset(
+                'assets/riv/map_indicator.riv',
+                controllers: [indicatorController],
+                animations: [
+                  'idle',
+                  'active',
+                ],
+              ),
+            ),
         ),
       ),
     );
