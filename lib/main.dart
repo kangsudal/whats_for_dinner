@@ -68,11 +68,19 @@ Future<void> fetchDataFromLocal(Box<Recipe> recipeBox) async {
 }
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    fetchAlbum();
     return MaterialApp(
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.grey,
+          // selectionColor: Colors.grey,
+          selectionHandleColor: Colors.grey,
+        ),
+      ),
       home: HomeScreen(),
       navigatorKey: navigatorKey,
     );
