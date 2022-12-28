@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:rive/rive.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -113,14 +114,18 @@ class _SearchFieldState extends ConsumerState<SearchField> {
     String ingredient1;
     String ingredient2;
     List<String> rcppartsdtls = widget.recipe.rcppartsdtls!.split('\n');
-    if (rcppartsdtls[0].contains(',')) {//"재료 가다랑어포(5g), 오이(5g), 깻잎(1g)\n육수 무(50g), 다시마(1g), 대파(10g), 물(500g)\n => ingredient1: 재료 가다랑어포, ingredient2: 오이
+    if (rcppartsdtls[0].contains(',')) {
+      //"재료 가다랑어포(5g), 오이(5g), 깻잎(1g)\n육수 무(50g), 다시마(1g), 대파(10g), 물(500g)\n => ingredient1: 재료 가다랑어포, ingredient2: 오이
       ingredient1 = rcppartsdtls[0].split(',')[0];
       ingredient2 = rcppartsdtls[0].split(',')[1];
-    } else {//"고추장전\n옥수수콘 50g(2큰술), 당근 5g(1/20개), 표고버섯 5g(1개)" => ingredient1: 고추장전, ingredient2: 옥수수콘
+    } else {
+      //"고추장전\n옥수수콘 50g(2큰술), 당근 5g(1/20개), 표고버섯 5g(1개)" => ingredient1: 고추장전, ingredient2: 옥수수콘
       ingredient1 = rcppartsdtls[0];
       ingredient2 = rcppartsdtls[1].split(',')[0];
     }
-    hashTag = (hashTag == "") ? '$ingredient1 $ingredient2' : hashTag; //hashTag가 비어있으면 재료를 대신 넣는다. 
+    hashTag = (hashTag == "")
+        ? '$ingredient1 $ingredient2'
+        : hashTag; //hashTag가 비어있으면 재료를 대신 넣는다.
     controller1 = TextEditingController(text: keyword);
     controller2 = TextEditingController(text: hashTag);
   }
@@ -132,58 +137,65 @@ class _SearchFieldState extends ConsumerState<SearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 130,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: controller1,
-                  onSubmitted: submitData,
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: controller1,
+                onSubmitted: submitData,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 10,
+                  ),
+                  border: InputBorder.none,
                 ),
               ),
-              TextButton(
-                  onPressed: () {
-                    submitData(controller1.text);
-                  },
-                  child: Text('검색')),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: controller2,
-                  onSubmitted: submitData,
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
                 ),
+                onPressed: () {
+                  submitData(controller1.text);
+                },
+                child: Text('검색'),
               ),
-              TextButton(
-                  onPressed: () {
-                    submitData(controller2.text);
-                  },
-                  child: Text('검색')),
-            ],
-          ),
-          SizedBox(height: 10),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
 
-class CustomGoogleMap extends ConsumerWidget {
+class CustomGoogleMap extends ConsumerStatefulWidget {
   final String rcpnm;
   CustomGoogleMap({
     required this.rcpnm,
     Key? key,
   }) : super(key: key);
 
+  @override
+  ConsumerState<CustomGoogleMap> createState() => _CustomGoogleMapState();
+}
+
+class _CustomGoogleMapState extends ConsumerState<CustomGoogleMap> {
   GoogleMapController? _controller;
+  late RiveAnimationController indicatorController;
 
   @override
-  Widget build(BuildContext context, ref) {
+  void initState() {
+    super.initState();
+    indicatorController = SimpleAnimation('active');
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final googleMapDataFuture = ref.watch(googleMapDataFutureProvider);
     return googleMapDataFuture.when(
       data: (data) {
@@ -220,7 +232,18 @@ class CustomGoogleMap extends ConsumerWidget {
       },
       loading: () => Expanded(
         child: Center(
-          child: CircularProgressIndicator(),
+          child: SizedBox(
+            width: 500,
+            height: 500,
+            child: RiveAnimation.asset(
+              'assets/riv/map_indicator.riv',
+              controllers: [indicatorController],
+              animations: [
+                'idle',
+                'active',
+              ],
+            ),
+          ),
         ),
       ),
     );
