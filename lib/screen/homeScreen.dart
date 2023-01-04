@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 import 'package:shake/shake.dart';
 import 'package:whats_for_dinner/model/menuState.dart';
 import 'package:whats_for_dinner/model/persistStorage.dart';
@@ -21,6 +22,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late RiveAnimationController indicatorController;
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +32,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ref.read(menuProvider.notifier).shuffle();
       },
     );
+
+    indicatorController = SimpleAnimation('active');
   }
 
   @override
@@ -78,8 +83,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Expanded(
                     child: CachedNetworkImage(
                       imageUrl: menu.attfilenomain!,
-                      placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
+                      placeholder: (context, url) => Center(
+                        child: SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: RiveAnimation.asset(
+                            'assets/riv/fork_indicator.riv',
+                            controllers: [indicatorController],
+                          ),
+                        ),
+                      ),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ), //attfilenomk
