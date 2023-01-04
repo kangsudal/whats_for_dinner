@@ -97,7 +97,10 @@ class _ManualScreenState extends State<ManualScreen> {
                       height: 10,
                     ),
                     if (widget.recipe.manual01 != '')
-                      Text(widget.recipe.manual01!),
+                          Padding(
+                            padding: const EdgeInsets.only(top:30,bottom:15),
+                            child: Text(widget.recipe.manual01!),
+                          ),
                     if (widget.recipe.manualimg01 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -108,7 +111,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg01!),
                     if (widget.recipe.manual02 != '')
-                      Text(widget.recipe.manual02!),
+                          Padding(
+                            padding: const EdgeInsets.only(top:30,bottom:15),
+                            child: Text(widget.recipe.manual02!),
+                          ),
                     if (widget.recipe.manualimg02 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -119,7 +125,11 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg02!),
                     if (widget.recipe.manual03 != '')
-                      Text(widget.recipe.manual03!),
+                          Padding(
+                            padding: const EdgeInsets.only(top:30,bottom:15),
+                            child: Text(widget.recipe.manual03!),
+                          ),
+
                     if (widget.recipe.manualimg03 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -130,7 +140,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg03!),
                     if (widget.recipe.manual04 != '')
-                      Text(widget.recipe.manual04!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual04!),
+                      ),
                     if (widget.recipe.manualimg04 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -141,7 +154,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg04!),
                     if (widget.recipe.manual05 != '')
-                      Text(widget.recipe.manual05!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual05!),
+                      ),
                     if (widget.recipe.manualimg05 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -152,7 +168,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg05!),
                     if (widget.recipe.manual06 != '')
-                      Text(widget.recipe.manual06!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual06!),
+                      ),
                     if (widget.recipe.manualimg06 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -163,7 +182,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg06!),
                     if (widget.recipe.manual07 != '')
-                      Text(widget.recipe.manual07!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual07!),
+                      ),
                     if (widget.recipe.manualimg07 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -174,7 +196,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg07!),
                     if (widget.recipe.manual08 != '')
-                      Text(widget.recipe.manual08!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual08!),
+                      ),
                     if (widget.recipe.manualimg08 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -185,7 +210,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg08!),
                     if (widget.recipe.manual09 != '')
-                      Text(widget.recipe.manual09!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual09!),
+                      ),
                     if (widget.recipe.manualimg09 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -196,7 +224,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg09!),
                     if (widget.recipe.manual10 != '')
-                      Text(widget.recipe.manual10!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual10!),
+                      ),
                     if (widget.recipe.manualimg10 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -207,7 +238,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg10!),
                     if (widget.recipe.manual11 != '')
-                      Text(widget.recipe.manual11!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual11!),
+                      ),
                     if (widget.recipe.manualimg11 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -218,7 +252,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg11!),
                     if (widget.recipe.manual12 != '')
-                      Text(widget.recipe.manual12!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual12!),
+                      ),
                     if (widget.recipe.manualimg12 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -229,7 +266,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg12!),
                     if (widget.recipe.manual13 != '')
-                      Text(widget.recipe.manual13!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual13!),
+                      ),
                     if (widget.recipe.manualimg13 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -240,7 +280,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg13!),
                     if (widget.recipe.manual14 != '')
-                      Text(widget.recipe.manual14!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual14!),
+                      ),
                     if (widget.recipe.manualimg14 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -251,7 +294,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg14!),
                     if (widget.recipe.manual15 != '')
-                      Text(widget.recipe.manual15!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual15!),
+                      ),
                     if (widget.recipe.manualimg15 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -262,7 +308,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg15!),
                     if (widget.recipe.manual16 != '')
-                      Text(widget.recipe.manual16!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual16!),
+                      ),
                     if (widget.recipe.manualimg16 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -273,7 +322,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg16!),
                     if (widget.recipe.manual17 != '')
-                      Text(widget.recipe.manual17!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual17!),
+                      ),
                     if (widget.recipe.manualimg17 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -284,7 +336,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg17!),
                     if (widget.recipe.manual18 != '')
-                      Text(widget.recipe.manual18!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual18!),
+                      ),
                     if (widget.recipe.manualimg18 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -295,7 +350,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg18!),
                     if (widget.recipe.manual19 != '')
-                      Text(widget.recipe.manual19!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual19!),
+                      ),
                     if (widget.recipe.manualimg19 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -306,7 +364,10 @@ class _ManualScreenState extends State<ManualScreen> {
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg19!),
                     if (widget.recipe.manual20 != '')
-                      Text(widget.recipe.manual20!),
+                      Padding(
+                        padding: const EdgeInsets.only(top:30,bottom:15),
+                        child: Text(widget.recipe.manual20!),
+                      ),
                     if (widget.recipe.manualimg20 != '')
                       CachedNetworkImage(
                           errorWidget: (context, url, error) {
@@ -316,6 +377,7 @@ class _ManualScreenState extends State<ManualScreen> {
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
                           imageUrl: widget.recipe.manualimg20!),
+                    SizedBox(height: 30,),
                     ElevatedButton(
                       child: Text("오늘은 이 메뉴로 확정!"),
                       onPressed: () {
