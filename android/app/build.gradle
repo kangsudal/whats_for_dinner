@@ -31,7 +31,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
-def googleMapsApiKey = keystoreProperties.getProperty('google.maps.apiKey')
+def googleMapsApiKey = localProperties.getProperty('google.maps.apiKey')
 
 android {
     compileSdkVersion 33
