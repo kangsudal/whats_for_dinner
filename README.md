@@ -88,3 +88,4 @@ https://blog.naver.com/kangsudal-dev/222982435173
 5. 실행~
 
 ### 프로젝트 구조
+<img src="https://user-images.githubusercontent.com/32862869/212666001-34a936a7-65d0-4008-abba-758b83549b10.png" width="600" height="600"/>
