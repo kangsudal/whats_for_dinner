@@ -88,4 +88,5 @@ https://blog.naver.com/kangsudal-dev/222982435173
 5. 실행~
 
 ### 프로젝트 구조
-<img src="https://user-images.githubusercontent.com/32862869/212666001-34a936a7-65d0-4008-abba-758b83549b10.png" width="600" height="600"/>
+![프로젝트구조 1 drawio](https://user-images.githubusercontent.com/32862869/213140623-67780997-ad42-496b-9eed-95683e9d2b4a.png)
+![한끼잇고 플로우차트full drawio의 복사본 drawio](https://user-images.githubusercontent.com/32862869/213140614-53f91802-dc21-41fc-a937-bfe8859982c7.png)
