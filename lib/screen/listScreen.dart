@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:whats_for_dinner/model/menuState.dart';
+import 'package:whats_for_dinner/model/menuProvider.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
 import 'package:whats_for_dinner/screen/manualScreen.dart';
 
@@ -37,6 +37,7 @@ class _ListScreenState extends State<ListScreen> {
             child: TextField(
               controller: _controller,
               decoration: InputDecoration(
+                border: InputBorder.none,
                 prefixIcon: IconButton(
                   color: Colors.black12,
                   icon: Icon(Icons.search),
@@ -113,10 +114,10 @@ class _ListScreenState extends State<ListScreen> {
     _controller.addListener(() {
       print(_controller.text);
       String searchWords = _controller.text;
-      Box<Recipe> itemBox = Hive.box('recipeBox');
+      // Box<Recipe> itemBox = Hive.box('recipeBox');
       List<Recipe> results = searchWords.isEmpty
-          ? itemBox.values.toList() // whole list
-          : itemBox.values
+          ? recipeBox.values.toList() // whole list
+          : recipeBox.values
               .where((recipe) => recipe.rcpnm!.contains(searchWords))
               .toList();
       if (searchWords.isNotEmpty) {

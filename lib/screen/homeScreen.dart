@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:shake/shake.dart';
-import 'package:whats_for_dinner/model/menuState.dart';
+import 'package:whats_for_dinner/model/menuProvider.dart';
 import 'package:whats_for_dinner/model/persistStorage.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
 import 'package:whats_for_dinner/screen/restaurantScreen.dart';

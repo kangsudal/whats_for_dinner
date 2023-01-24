@@ -137,36 +137,32 @@ class _SearchFieldState extends ConsumerState<SearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: controller1,
-                onSubmitted: submitData,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 10,
-                  ),
-                  border: InputBorder.none,
-                ),
+        Expanded(
+          child: TextField(
+            controller: controller1,
+            onSubmitted: submitData,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 10,
               ),
+              border: InputBorder.none,
             ),
-            Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                ),
-                onPressed: () {
-                  submitData(controller1.text);
-                },
-                child: Text('검색'),
-              ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: 10),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black,
             ),
-          ],
+            onPressed: () {
+              submitData(controller1.text);
+            },
+            child: Text('검색'),
+          ),
         ),
       ],
     );
