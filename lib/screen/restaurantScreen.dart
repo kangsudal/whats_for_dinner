@@ -141,6 +141,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       children: [
         Expanded(
           child: TextField(
+            autofocus: true,
             controller: controller1,
             onSubmitted: submitData,
             decoration: InputDecoration(
@@ -181,6 +182,7 @@ class CustomGoogleMap extends ConsumerStatefulWidget {
 }
 
 class _CustomGoogleMapState extends ConsumerState<CustomGoogleMap> {
+  TextEditingController textEditingController = TextEditingController();
   GoogleMapController? _controller;
   late RiveAnimationController indicatorController;
 
