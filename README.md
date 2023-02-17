@@ -59,7 +59,26 @@ https://blog.naver.com/kangsudal-dev/222982435173
 
 3. 프로젝트/android/local.properites파일에 `google.maps.apiKey=구글맵apikey`를 입력합니다.
 
-4. 프로젝트/android/app/build.gradle 파일에
+4. 프로젝트/ios/AppDelegate.swift 파일에
+```
+import UIKit
+import Flutter
+import GoogleMaps
+
+@UIApplicationMain
+@objc class AppDelegate: FlutterAppDelegate {
+  override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
+    GMSServices.provideAPIKey("구글맵apikey")
+    GeneratedPluginRegistrant.register(with: self)
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+}
+```
+
+5. 프로젝트/android/app/build.gradle 파일에
 ```
 /* 디버그 모드일때 주석쳐아하는부분 */
 //    signingConfigs {
