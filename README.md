@@ -59,7 +59,7 @@ https://blog.naver.com/kangsudal-dev/222982435173
 
 3. 프로젝트/android/local.properites파일에 `google.maps.apiKey=구글맵apikey`를 입력합니다.
 
-4. 프로젝트/ios/AppDelegate.swift 파일에
+4. 프로젝트/ios/Runner/AppDelegate.swift 파일에
 ```
 import UIKit
 import Flutter
