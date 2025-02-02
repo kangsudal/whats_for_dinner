@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shake/shake.dart';
+// import 'package:shake/shake.dart';
 import 'package:whats_for_dinner/model/persistStorage.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
 import 'package:http/http.dart' as http;

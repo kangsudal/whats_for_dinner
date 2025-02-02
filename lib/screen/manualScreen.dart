@@ -6,7 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:whats_for_dinner/model/eatNote.dart';
 import 'package:whats_for_dinner/model/recipe.dart';
-import 'package:share_files_and_screenshot_widgets_plus/share_files_and_screenshot_widgets_plus.dart';
+// import 'package:share_files_and_screenshot_widgets_plus/share_files_and_screenshot_widgets_plus.dart';
 import 'package:whats_for_dinner/screen/restaurantScreen.dart';
 
 class ManualScreen extends StatefulWidget {
@@ -29,13 +29,13 @@ class _ManualScreenState extends State<ManualScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(widget.recipe.rcpnm!),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () {
-                shareScreenshot();
-              }),
-        ],
+        // actions: [
+        //   IconButton(
+        //       icon: Icon(Icons.share),
+        //       onPressed: () {
+        //         shareScreenshot();
+        //       }),
+        // ],
       ),
       body: SingleChildScrollView(
         child: RepaintBoundary(
@@ -411,27 +411,27 @@ class _ManualScreenState extends State<ManualScreen> {
     );
   }
 
-  void takingScreenshot() {
-    //RepaintBoundary 위젯으로 감싸진 위젯들을 Image로 저장
-    ShareFilesAndScreenshotWidgets()
-        .takeScreenshot(previewContainer, originalSize)
-        .then(
-      (Image value) {
-        setState(
-          () {
-            _image = value;
-          },
-        );
-      },
-    );
-  }
+  // void takingScreenshot() {
+  //   //RepaintBoundary 위젯으로 감싸진 위젯들을 Image로 저장
+  //   ShareFilesAndScreenshotWidgets()
+  //       .takeScreenshot(previewContainer, originalSize)
+  //       .then(
+  //     (Image value) {
+  //       setState(
+  //         () {
+  //           _image = value;
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
-  void shareScreenshot() {
-    //RepaintBoundary 위젯으로 감싸진 위젯 스샷을 외부 위젯으로 공유
-    ShareFilesAndScreenshotWidgets().shareScreenshot(
-        previewContainer, originalSize, "title", "namename.png", "image/png",
-        text: "오늘 이거 먹을래?");
-  }
+  // void shareScreenshot() {
+  //   //RepaintBoundary 위젯으로 감싸진 위젯 스샷을 외부 위젯으로 공유
+  //   ShareFilesAndScreenshotWidgets().shareScreenshot(
+  //       previewContainer, originalSize, "title", "namename.png", "image/png",
+  //       text: "오늘 이거 먹을래?");
+  // }
 
   void bookmarkRecipe(BuildContext context) {
     //print("똑똑 열리셨나요?${Hive.isBoxOpen('eatNoteBox')}");

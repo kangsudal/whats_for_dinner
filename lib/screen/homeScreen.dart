@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:shake/shake.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+// import 'package:shake/shake.dart';
 import 'package:whats_for_dinner/model/menuProvider.dart';
 import 'package:whats_for_dinner/model/persistStorage.dart';
 import 'package:whats_for_dinner/screen/listScreen.dart';
@@ -23,17 +26,41 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late RiveAnimationController indicatorController;
+  StreamSubscription? _accelerometerSubscription;
+  static const double shakeThreshold = 15.0;
+  double lastX = 0, lastY = 0, lastZ = 0;
+  int lastShakeTime = 0;
 
   @override
   void initState() {
     super.initState();
-    ShakeDetector detector = ShakeDetector.autoStart(
-      onPhoneShake: () {
-        ref.read(menuProvider.notifier).shuffle();
-      },
-    );
+
+    // 가속도 센서 감지 시작
+    _accelerometerSubscription = accelerometerEventStream().listen((event) {
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final deltaX = (event.x - lastX).abs();
+      final deltaY = (event.y - lastY).abs();
+      final deltaZ = (event.z - lastZ).abs();
+
+      if (deltaX > shakeThreshold || deltaY > shakeThreshold || deltaZ > shakeThreshold) {
+        if (now - lastShakeTime > 1000) { // 1초 안에 중복 감지 방지
+          lastShakeTime = now;
+          ref.read(menuProvider.notifier).shuffle();
+        }
+      }
+
+      lastX = event.x;
+      lastY = event.y;
+      lastZ = event.z;
+    });
 
     indicatorController = SimpleAnimation('active');
+  }
+
+  @override
+  void dispose() {
+    _accelerometerSubscription?.cancel();
+    super.dispose();
   }
 
   @override
