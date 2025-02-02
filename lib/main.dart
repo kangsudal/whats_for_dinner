@@ -79,6 +79,17 @@ class MyApp extends StatelessWidget {
           // selectionColor: Colors.grey,
           selectionHandleColor: Colors.grey,
         ),
+        // FloatingActionButton의 아이콘 색상
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          foregroundColor: Colors.white, // 흰색으로 설정
+        ),
+
+        // AppBar의 back 버튼 색상
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white, // back 버튼 색상 흰색
+          ),
+        ),
       ),
       home: HomeScreen(),
       navigatorKey: navigatorKey,
